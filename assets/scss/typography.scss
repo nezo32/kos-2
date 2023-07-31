@@ -1,0 +1,163 @@
+.typography {
+  &__title {
+    &__1 {
+      font-family: "Roboto";
+      font-style: normal;
+      font-weight: 600;
+      font-size: 96px;
+      line-height: 100%;
+
+      @media screen and (max-width: 1600px) {
+        font-size: 80px;
+      }
+
+      @media screen and (max-width: 1280px) {
+        font-size: 54px;
+      }
+
+      @media screen and (max-width: 768px) {
+        font-size: 34px;
+        line-height: 120%;
+      }
+    }
+
+    &__2 {
+      font-family: "Roboto";
+      font-style: normal;
+      font-weight: 700;
+      font-size: 50px;
+      line-height: 100%;
+
+      @media screen and (max-width: 1280px) {
+        font-size: 42px;
+      }
+    }
+
+    &__3 {
+      font-family: "Roboto";
+      font-style: normal;
+      font-weight: 600;
+      font-size: 34px;
+      line-height: 120%;
+
+      @media screen and (max-width: 768px) {
+        font-size: 30px;
+      }
+
+      @media screen and (max-width: 480px) {
+        font-size: 24px;
+      }
+    }
+
+    &__4 {
+      font-family: "Roboto";
+      font-style: normal;
+      font-weight: 700;
+      font-size: 34px;
+      line-height: 140%;
+
+      @media screen and (max-width: 768px) {
+        font-size: 30px;
+      }
+
+      @media screen and (max-width: 480px) {
+        font-size: 24px;
+      }
+    }
+
+    &__5 {
+      font-family: "Roboto";
+      font-style: normal;
+      font-weight: 600;
+      font-size: 24px;
+      line-height: 120%;
+
+      @media screen and (max-width: 1280px) {
+        font-size: 20px;
+      }
+
+      @media screen and (max-width: 768px) {
+        font-size: 18px;
+        line-height: 100%;
+      }
+    }
+  }
+
+  &__text {
+    &__1 {
+      font-family: "Roboto";
+      font-style: normal;
+      font-weight: 400;
+      font-size: 20px;
+      line-height: 140%;
+
+      @media screen and (max-width: 768px) {
+        font-size: 18px;
+      }
+
+      @media screen and (max-width: 480px) {
+        font-size: 16px;
+      }
+    }
+
+    &__2 {
+      font-family: "Roboto";
+      font-style: normal;
+      font-weight: 400;
+      font-size: 18px;
+      line-height: 140%;
+
+      @media screen and (max-width: 480px) {
+        font-size: 16px;
+      }
+    }
+
+    &__3 {
+      font-family: "Roboto";
+      font-style: normal;
+      font-weight: 400;
+      font-size: 16px;
+      line-height: 140%;
+
+      @media screen and (max-width: 480px) {
+        font-size: 14px;
+      }
+    }
+
+    &__4 {
+      font-family: "Roboto";
+      font-style: normal;
+      font-weight: 400;
+      font-size: 14px;
+      line-height: 140%;
+    }
+
+    &__5 {
+      font-family: "Roboto";
+      font-style: normal;
+      font-weight: 400;
+      font-size: 20px;
+      line-height: 140%;
+
+      @media screen and (max-width: 1280px) {
+        font-size: 18px;
+      }
+    }
+  }
+
+  &__breadcrumbs {
+    font-family: "Roboto";
+    font-style: normal;
+    font-weight: 400;
+    font-size: 24px;
+    line-height: 140%;
+
+    @media screen and (max-width: 1920px) {
+      font-size: 20px;
+    }
+
+    @media screen and (max-width: 768px) {
+      font-size: 14px;
+    }
+  }
+}
