@@ -4,14 +4,12 @@ defineProps<{
   title: string;
   text: string;
 
-  passId: string;
-  descId: string;
+  id: string;
 
   current: number;
   max: number;
 }>();
 
-const route = useRoute();
 const router = useRouter();
 </script>
 
@@ -26,15 +24,36 @@ const router = useRouter();
     <div class="card__content">
       <div class="card__content__header">
         <h4 class="typography__title__5">{{ title }}</h4>
+        <CoursesCircularProcess :current="current" :max="max" />
       </div>
       <div class="card__content__text-wrapper">
         <span class="typography__text__2">{{ text }}</span>
       </div>
       <div class="card__content__buttons">
-        <button class="typography__text__2" @click="router.push('/courses/' + passId)">
+        <button
+          class="typography__text__2"
+          @click="
+            router.push({
+              path: '/courses/' + id,
+              query: {
+                view: 'progress'
+              }
+            })
+          "
+        >
           Пройти курс
         </button>
-        <button class="typography__text__2" @click="router.push('/courses/' + descId)">
+        <button
+          class="typography__text__2"
+          @click="
+            router.push({
+              path: '/courses/' + id,
+              query: {
+                view: 'description'
+              }
+            })
+          "
+        >
           Описание курса
         </button>
       </div>
@@ -58,11 +77,22 @@ const router = useRouter();
   flex-direction: row;
   gap: 30px;
 
+  img {
+    border-radius: 10px;
+    width: 200px;
+    height: 250px;
+  }
+
   &__content {
+    width: 100%;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     &__header {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      gap: 20px;
       h4 {
         margin: 0;
         height: 58px;
@@ -86,7 +116,7 @@ const router = useRouter();
       gap: 20px;
       > * {
         cursor: pointer;
-        padding: 14.5px;
+        padding: 12.5px;
         width: 100%;
         border-radius: 10px;
         border: 2px solid var(--primary-color, #ca3b4c);

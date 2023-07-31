@@ -1,16 +1,10 @@
-<script setup lang="ts">
-const route = useRoute();
-</script>
+<script setup lang="ts"></script>
 
 <template>
   <main class="application">
     <SideBar />
     <div class="application__content">
-      <ServiceHeader
-        :title="route.name?.toString()"
-        username="Анастасия"
-        email="stepanova@gmail.com"
-      />
+      <ServiceHeader username="Анастасия" email="stepanova@gmail.com" />
       <NuxtPage />
     </div>
   </main>

@@ -13,7 +13,7 @@ defineProps<{
       <p class="typography__text__3">{{ email }}</p>
     </div>
     <img
-      :src="picture ?? 'images/placeholder.png'"
+      :src="picture ?? 'https://wallpapers-clan.com/wp-content/uploads/2023/05/cool-pfp-02.jpg'"
       alt="pfp"
       width="50"
       height="50"
