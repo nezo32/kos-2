@@ -21,16 +21,18 @@ const router = useRouter();
 
 const list = ref(["О курсе", "Прогресс", "Расписание"]);
 const activeList = ref(list.value.map((_) => false));
-setActive(0);
 
 const compareMap = new Map<string, ViewType>();
 compareMap.set("О курсе", "description");
 compareMap.set("Прогресс", "progress");
 compareMap.set("Расписание", "schedule");
 
-async function clickHandler(i: number) {
-  cmptd.value = compareMap.get(list.value[i]) ?? "progress";
-  await router.push(`${router.currentRoute.value.params.id}?view=${cmptd.value}`);
+setFromQuery();
+
+function clickHandler(i: number) {
+  router.push(
+    `${router.currentRoute.value.params.id}?view=${compareMap.get(list.value[i]) ?? "progress"}`
+  );
 }
 function getByValue(map: Map<string, ViewType>, n: ViewType) {
   for (let [key, value] of map.entries()) {
@@ -56,11 +58,10 @@ function setFromQuery() {
   setActive(found);
 }
 
-watch(cmptd, () => {
+onMounted(() => {
   setFromQuery();
 });
-
-onMounted(() => {
+onBeforeUpdate(() => {
   setFromQuery();
 });
 </script>
