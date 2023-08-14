@@ -1,10 +1,11 @@
 <script setup lang="ts">
-const emit = defineEmits<{
-  (event: "update:modelValue", value: number): void;
+const props = defineProps<{
+  list: string[];
+  modelValue?: number;
 }>();
+const emit = defineEmits(["update:modelValue"]);
 
-const list = ref(["Все курсы", "Активные курсы", "Пройденные курсы", "Каталог курсов"]);
-const activeList = ref(list.value.map((el) => false));
+const activeList = ref(props.list.map((el) => false));
 activeList.value[0] = true;
 
 function clickHandler(i: number) {

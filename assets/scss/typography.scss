@@ -65,6 +65,22 @@
       }
     }
 
+    &__4-2 {
+      font-family: Roboto;
+      font-size: 30px;
+      font-style: normal;
+      font-weight: 700;
+      line-height: 140%;
+
+      @media screen and (max-width: 768px) {
+        font-size: 24px;
+      }
+
+      @media screen and (max-width: 480px) {
+        font-size: 20px;
+      }
+    }
+
     &__5 {
       font-family: "Roboto";
       font-style: normal;
@@ -96,6 +112,34 @@
         font-size: 18px;
         line-height: 100%;
       }
+    }
+    &__7 {
+      font-family: "Roboto";
+      font-style: normal;
+      font-weight: 400;
+      font-size: 24px;
+      line-height: 140%;
+    }
+    &__7-2 {
+      font-family: "Roboto";
+      font-style: normal;
+      font-weight: 700;
+      font-size: 24px;
+      line-height: 140%;
+    }
+    &__7-3 {
+      font-family: "Roboto";
+      font-style: normal;
+      font-weight: 600;
+      font-size: 24px;
+      line-height: 140%;
+    }
+    &__8 {
+      font-family: Roboto;
+      font-size: 20px;
+      font-style: normal;
+      font-weight: 500;
+      line-height: 120%;
     }
   }
 
@@ -149,6 +193,13 @@
       @media screen and (max-width: 480px) {
         font-size: 14px;
       }
+    }
+    &__3-2 {
+      font-family: "Roboto";
+      font-style: normal;
+      font-weight: 500;
+      font-size: 16px;
+      line-height: normal;
     }
 
     &__4 {

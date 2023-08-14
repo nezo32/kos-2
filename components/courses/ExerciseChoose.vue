@@ -17,7 +17,7 @@ function left() {
   if (!pagesContainer.value) return;
   if (props.current > 1) {
     emit("update:current", props.current - 1);
-    pagesContainer.value.scrollLeft = (props.current - 3) * 113;
+    pagesContainer.value.scrollLeft = (props.current - 3) * 120;
     return;
   }
   pagesContainer.value.scrollLeft = 0;
@@ -26,15 +26,17 @@ function right() {
   if (!pagesContainer.value) return;
   if (props.current < props.count) {
     emit("update:current", props.current + 1);
-    pagesContainer.value.scrollLeft = (props.current - 1) * 113;
+    pagesContainer.value.scrollLeft = (props.current - 1) * 120;
     return;
   }
-  pagesContainer.value.scrollLeft = props.current * 113;
+  pagesContainer.value.scrollLeft = props.current * 120;
 }
 
 function mouseMove(ev: MouseEvent) {
   if (!pagesContainer.value) return;
   if (!mousePress.value) return;
+
+  ev.preventDefault();
 
   const dx = ev.clientX - position.value.x;
 
@@ -77,7 +79,7 @@ function mouseOut() {
         class="typography__text__3"
         v-for="v in count"
         :class="{ active: v == current }"
-        @click="emit('update:current', v)"
+        @dblclick="emit('update:current', v)"
       >
         {{ `${v} занятие` }}
       </span>
@@ -108,17 +110,26 @@ function mouseOut() {
     display: flex;
     flex-direction: row;
     align-items: center;
-    gap: 40px;
 
     > span {
-      padding: 10px 0px;
+      padding: 13px 0px;
+      flex-shrink: 0;
+      text-align: center;
+      box-sizing: border-box;
+      width: 120px;
       white-space: nowrap;
 
       cursor: pointer;
       color: var(--text-color);
 
-      &.active {
+      &:hover {
         color: var(--primary-color);
+      }
+
+      &.active {
+        background: var(--primary-color);
+        color: var(--white);
+        border-radius: 6px;
       }
     }
   }

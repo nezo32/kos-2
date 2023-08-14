@@ -37,7 +37,10 @@ const data = ref<PropsType<typeof Card>[]>([
 
 <template>
   <div class="courses">
-    <CoursesSwitcherType v-model="current" />
+    <CoursesSwitcherType
+      v-model="current"
+      :list="['Все курсы', 'Активные курсы', 'Пройденные курсы', 'Каталог курсов']"
+    />
     <div class="courses__content">
       <CoursesCard
         v-for="(v, i) of data"

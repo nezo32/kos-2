@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import type { RouteLocationNormalized } from "vue-router";
-import DotIcon from "@/assets/svg/dot.svg?component";
 
 definePageMeta({
   pageName: async (r: RouteLocationNormalized) => "Курс"
@@ -15,7 +14,7 @@ const view = ref<ViewType>(
   (router.currentRoute.value.query.view as ViewType | undefined) ?? "description"
 );
 const countExercises = ref(21);
-const currentExercise = ref(1);
+const currentExercise = ref(0);
 
 const courseCover = ref("/images/placeholder-course.png");
 const crumbs = ref(["Менеджмент и сервис", "Начальный", "Очный"]);
@@ -78,12 +77,13 @@ const creators = ref<{ image?: string; name: string; who: string; desc: string }
 ]);
 
 watch(router.currentRoute, (n) => {
+  currentExercise.value = 0;
   view.value = (n.query.view as ViewType | undefined) ?? "description";
 });
 onMounted(() => {
   view.value = (router.currentRoute.value.query.view as ViewType | undefined) ?? "description";
   if (!cover.value) return;
-  cover.value.style.background = `linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.4) 85.94%), url(${courseCover.value}), lightgray 0px -129.87px / 100% 340.728% no-repeat`;
+  cover.value.style.background = `linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.4) 85.94%), url(${courseCover.value}), lightgrey 0px -129.87px / 100% 340.728% no-repeat`;
 });
 </script>
 
@@ -93,53 +93,18 @@ onMounted(() => {
       <CoursesSwitcherViewType v-model="view" />
       <CoursesExerciseChoose v-model:current="currentExercise" :count="countExercises" />
     </div>
-    <div class="course__content" v-if="view == 'description'">
-      <img :src="courseCover" alt="courseImage" ref="cover" />
-      <div class="course__content__creators">
-        <article v-for="(v, i) of creators" :key="i">
-          <img :src="v.image ?? '/images/placeholder.png'" alt="creatorPfp" />
-          <section>
-            <h5 class="typography__title__6">{{ `${v.who}: ${v.name}` }}</h5>
-            <span class="typography__text__1">{{ v.desc }}</span>
-          </section>
-        </article>
-      </div>
-      <div class="course__content__description">
-        <div class="course__content__description__crumbs">
-          <article v-for="(v, i) of crumbs" :key="i" class="typography__text__2">{{ v }}</article>
-        </div>
-        <h5 class="typography__title__6">{{ courseName }}</h5>
-        <span
-          class="typography__text__2"
-          v-html="courseDescription.replaceAll('\n', '<br /><br />')"
-        />
-      </div>
-      <div class="course__content__inner">
-        <div class="course__content__inner__header">
-          <h5 class="typography__title__6">Содержание программы</h5>
-          <span class="typography__text__1">Скачать программу</span>
-        </div>
-        <div class="course__content__inner__data">
-          <article v-for="(v, i) of modules" :key="i" :class="{ active: v.open }">
-            <header>
-              <section>
-                <IconsModuleArrowIcon @click="modules[i].open = !v.open" />
-                <span class="typography__text__2">{{ `Модуль ${i + 1}: ${v.name}` }}</span>
-              </section>
-              <article class="typography__text__2">
-                <span v-if="v.lectures">{{ `${v.lectures} лекций` }}<DotIcon /></span>
-                <span v-if="v.practices">{{ `${v.practices} практик` }}<DotIcon /></span>
-                <span>{{ `${v.hours} часов` }}</span>
-              </article>
-            </header>
-            <section v-if="v.open" class="typography__text__2">
-              {{ v.description }}
-            </section>
-          </article>
-        </div>
-        <button class="typography__text__2-1">Все модули</button>
-      </div>
-    </div>
+    <ViewsAboutCourse
+      :course-cover="courseCover"
+      :course-description="courseDescription"
+      :course-name="courseName"
+      :creators="creators"
+      :crumbs="crumbs"
+      :modules="modules"
+      v-if="currentExercise == 0 && view == 'description'"
+    />
+    <ViewsProgressCourse v-else-if="currentExercise == 0 && view == 'progress'" />
+    <ViewsScheduleCourse v-else-if="currentExercise == 0 && view == 'schedule'" />
+    <ViewsExerciseCourse v-if="currentExercise != 0" :index="currentExercise" />
   </div>
 </template>
 
@@ -155,153 +120,9 @@ onMounted(() => {
     align-items: center;
     justify-content: space-between;
   }
-  &__content {
-    margin-bottom: 62px;
-
-    display: flex;
-    flex-direction: column;
-    gap: 50px;
-    > img {
-      width: 100%;
-      height: 300px;
-      object-fit: cover;
-      object-position: 25% 25%;
-      border-radius: 10px;
-    }
-
-    &__creators {
-      display: flex;
-      flex-direction: row;
-      flex-wrap: wrap;
-      gap: 30px;
-
-      > * {
-        width: calc((100% - 30px) / 2);
-      }
-
-      article {
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-        gap: 20px;
-        img {
-          width: 100px;
-          height: 100px;
-          border-radius: 100%;
-        }
-
-        section {
-          display: flex;
-          flex-direction: column;
-          gap: 4px;
-
-          h5 {
-            margin: 0;
-          }
-        }
-      }
-    }
-
-    &__description {
-      display: flex;
-      flex-direction: column;
-      gap: 20px;
-      &__crumbs {
-        display: flex;
-        flex-direction: row;
-        gap: 20px;
-
-        article {
-          padding: 10px 20px;
-          border-radius: 4px;
-          border: 1px solid var(--primary-color, #ca3b4c);
-          color: var(--primary-color);
-        }
-      }
-      h5 {
-        margin: 0;
-      }
-    }
-
-    &__inner {
-      display: flex;
-      flex-direction: column;
-      gap: 40px;
-      &__header {
-        display: flex;
-        flex-direction: column;
-        gap: 10px;
-        h5 {
-          margin: 0;
-        }
-        span {
-          cursor: pointer;
-          color: var(--primary-color);
-        }
-      }
-      &__data {
-        display: flex;
-        flex-direction: column;
-        gap: 30px;
-
-        article {
-          border-radius: 10px;
-
-          > header {
-            padding: 23px 20px;
-            display: flex;
-            flex-direction: row;
-            align-items: center;
-            justify-content: space-between;
-            background: rgba(202, 59, 76, 0.1);
-            border-radius: 10px;
-
-            section {
-              display: flex;
-              flex-direction: row;
-              align-items: center;
-              gap: 20px;
-            }
-
-            article {
-              display: flex;
-              flex-direction: row;
-              align-items: center;
-              gap: 10px;
-              span {
-                display: flex;
-                flex-direction: row;
-                align-items: center;
-                gap: 10px;
-              }
-            }
-          }
-          &.active {
-            header {
-              svg {
-                transform: rotate(180deg);
-              }
-            }
-            border: 1px solid var(--text-grey, #858585);
-          }
-
-          svg {
-            transition: transform 0.2s ease-in-out;
-          }
-
-          > section {
-            padding: 30px 20px 20px 20px;
-          }
-        }
-      }
-      button {
-        width: fit-content;
-        padding: 14.5px 60px;
-        border-radius: 10px;
-        background: var(--primary-color, #ca3b4c);
-        border: none;
-        color: var(--white);
-      }
+  > * {
+    &:nth-child(2) {
+      margin-bottom: 60px;
     }
   }
 }
