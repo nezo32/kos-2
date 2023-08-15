@@ -66,10 +66,15 @@ const { width } = useWindowSize();
     button {
       white-space: nowrap;
       padding: 0;
+      border-radius: 0;
+      padding-bottom: 4px;
+      border-bottom: 1px solid transparent;
 
       &.active {
         color: var(--primary-color);
-        text-decoration: underline;
+        padding-bottom: 4px;
+        border-bottom: 1px solid var(--primary-color);
+
         background: none;
       }
     }
