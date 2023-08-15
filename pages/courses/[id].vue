@@ -4,17 +4,16 @@ import type { RouteLocationNormalized } from "vue-router";
 definePageMeta({
   pageName: async (r: RouteLocationNormalized) => "Курс"
 });
-type ViewType = "description" | "progress" | "schedule";
+type ViewType = "description" | "progress" | "schedule" | undefined;
 
 const router = useRouter();
 
 const cover = ref<HTMLImageElement>();
 
-const view = ref<ViewType>(
-  (router.currentRoute.value.query.view as ViewType | undefined) ?? "description"
-);
+const view = ref<ViewType>(router.currentRoute.value.query.view as ViewType | undefined);
+const reply = ref(false);
 const countExercises = ref(21);
-const currentExercise = ref(0);
+const currentExercise = ref<number>(0);
 
 const courseCover = ref("/images/placeholder-course.png");
 const crumbs = ref(["Менеджмент и сервис", "Начальный", "Очный"]);
@@ -78,10 +77,11 @@ const creators = ref<{ image?: string; name: string; who: string; desc: string }
 
 watch(router.currentRoute, (n) => {
   currentExercise.value = 0;
-  view.value = (n.query.view as ViewType | undefined) ?? "description";
+  reply.value = false;
+  view.value = n.query.view as ViewType;
 });
 onMounted(() => {
-  view.value = (router.currentRoute.value.query.view as ViewType | undefined) ?? "description";
+  view.value = router.currentRoute.value.query.view as ViewType;
   if (!cover.value) return;
   cover.value.style.background = `linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.4) 85.94%), url(${courseCover.value}), lightgrey 0px -129.87px / 100% 340.728% no-repeat`;
 });
@@ -91,7 +91,11 @@ onMounted(() => {
   <div class="course">
     <div class="course__header">
       <CoursesSwitcherViewType v-model="view" />
-      <CoursesExerciseChoose v-model:current="currentExercise" :count="countExercises" />
+      <CoursesExerciseChoose
+        v-model:current="currentExercise"
+        :count="countExercises"
+        v-model:reply="reply"
+      />
     </div>
     <ViewsAboutCourse
       :course-cover="courseCover"
@@ -100,10 +104,10 @@ onMounted(() => {
       :creators="creators"
       :crumbs="crumbs"
       :modules="modules"
-      v-if="currentExercise == 0 && view == 'description'"
+      v-if="currentExercise == 0 && !reply && view == 'description'"
     />
-    <ViewsProgressCourse v-else-if="currentExercise == 0 && view == 'progress'" />
-    <ViewsScheduleCourse v-else-if="currentExercise == 0 && view == 'schedule'" />
+    <ViewsProgressCourse v-else-if="currentExercise == 0 && !reply && view == 'progress'" />
+    <ViewsScheduleCourse v-else-if="currentExercise == 0 && !reply && view == 'schedule'" />
     <ViewsExerciseCourse v-if="currentExercise != 0" :index="currentExercise" />
   </div>
 </template>

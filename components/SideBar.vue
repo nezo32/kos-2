@@ -6,6 +6,9 @@ import ExitIcon from "@/components/icons/ExitIcon.vue";
 import NotifyBellIcon from "@/components/icons/NotifyBellIcon.vue";
 import PlayIcon from "@/components/icons/PlayIcon.vue";
 import SupportChatIcon from "@/components/icons/SupportChatIcon.vue";
+import CrossIcon from "@/assets/svg/cross.svg?component";
+
+const emit = defineEmits(["closeMenu"]);
 
 const router = useRouter();
 
@@ -48,10 +51,17 @@ function arrowClickHandler() {
   }
   setTimeout(() => (hideText.value = true), 200);
 }
+
+const { width } = useWindowSize();
+const sidebar = ref();
+
+onClickOutside(sidebar, () => {
+  emit("closeMenu");
+});
 </script>
 
 <template>
-  <div class="side-bar" :class="{ hide }">
+  <div class="side-bar" :class="{ hide }" ref="sidebar">
     <div class="side-bar__content">
       <div class="side-bar__content__header">
         <IconsLogoIcon
@@ -60,11 +70,13 @@ function arrowClickHandler() {
           @click="router.push('/')"
         />
         <IconsCircleArrowIcon
+          v-if="width >= 1000"
           style="padding: 10px 14px"
           @click="arrowClickHandler"
           class="side-bar__content__header__arrow"
           :class="{ right: hide }"
         />
+        <CrossIcon style="padding: 10px 14px" v-if="width < 1000" @click="emit('closeMenu')" />
       </div>
       <div class="side-bar__content__routes">
         <SideBarRoute
@@ -105,6 +117,10 @@ function arrowClickHandler() {
   padding: 40px 30px 30px 30px;
   background: var(--primary-color, #ca3b4c);
 
+  @media screen and (max-width: 768px) {
+    padding: 40px 20px 30px 20px;
+  }
+
   &__content {
     display: flex;
     flex-direction: column;
@@ -118,13 +134,16 @@ function arrowClickHandler() {
       color: var(--white, white);
 
       &__logo {
-        cursor: pointer;
         margin-left: 14px;
         width: 49px;
         height: 30px;
       }
-      &__arrow {
+
+      svg {
         cursor: pointer;
+      }
+
+      &__arrow {
         flex-shrink: 0;
         transition: transform 0.3s ease-in-out;
         &.right {

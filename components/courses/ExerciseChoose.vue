@@ -2,9 +2,11 @@
 const props = defineProps<{
   current: number;
   count: number;
+  reply?: boolean;
 }>();
-const emit = defineEmits(["update:current"]);
+const emit = defineEmits(["update:current", "update:reply"]);
 
+const router = useRouter();
 const pagesContainer = ref<HTMLDivElement>();
 
 const mousePress = ref(false);
@@ -62,6 +64,16 @@ function mouseOut() {
   pagesContainer.value.style.scrollBehavior = "smooth";
   pagesContainer.value.style.cursor = "grab";
 }
+
+function clck() {
+  emit("update:reply", true);
+  emit("update:current", 0);
+}
+
+function dblclck(v: number) {
+  emit("update:current", v);
+  emit("update:reply", false);
+}
 </script>
 
 <template>
@@ -79,10 +91,13 @@ function mouseOut() {
         class="typography__text__3"
         v-for="v in count"
         :class="{ active: v == current }"
-        @dblclick="emit('update:current', v)"
+        @click="dblclck(v)"
       >
         {{ `${v} занятие` }}
       </span>
+    </div>
+    <div class="exercise__choose__reply" @click="clck()">
+      <span class="typography__text__3" :class="{ active: props.reply }">Отзыв</span>
     </div>
     <IconsPageSwitchArrow @click="right" />
   </div>
@@ -96,7 +111,7 @@ function mouseOut() {
   gap: 40px;
 
   &__inner {
-    max-width: 930px;
+    max-width: 730px;
     user-select: none;
     overflow: auto;
     scroll-behavior: smooth;
@@ -134,8 +149,33 @@ function mouseOut() {
     }
   }
 
+  &__reply {
+    > span {
+      display: block;
+      padding: 13px 0px;
+      flex-shrink: 0;
+      text-align: center;
+      box-sizing: border-box;
+      width: 120px;
+      white-space: nowrap;
+
+      cursor: pointer;
+      color: var(--text-color);
+
+      &:hover {
+        color: var(--primary-color);
+      }
+
+      &.active {
+        background: var(--primary-color);
+        color: var(--white);
+        border-radius: 6px;
+      }
+    }
+  }
+
   > * {
-    &:nth-child(3) {
+    &:nth-child(4) {
       transform: rotate(180deg);
     }
   }

@@ -7,6 +7,7 @@ export default defineNuxtConfig({
     "@nuxt/devtools",
     "@nuxt/image-edge",
     "@pinia/nuxt",
+    '@vueuse/nuxt',
   ],
   vite: {
     plugins: [

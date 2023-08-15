@@ -42,5 +42,10 @@ defineProps<{
       font-weight: 500;
     }
   }
+  @media screen and (max-width: 768px) {
+    &__inner {
+      display: none;
+    }
+  }
 }
 </style>

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-type ViewType = "description" | "progress" | "schedule";
+type ViewType = "description" | "progress" | "schedule" | undefined;
 
 const props = defineProps<{
   modelValue: ViewType;
@@ -26,13 +26,17 @@ const compareMap = new Map<string, ViewType>();
 compareMap.set("О курсе", "description");
 compareMap.set("Прогресс", "progress");
 compareMap.set("Расписание", "schedule");
+compareMap.set("", undefined);
 
 setFromQuery();
 
 function clickHandler(i: number) {
-  router.push(
-    `${router.currentRoute.value.params.id}?view=${compareMap.get(list.value[i]) ?? "progress"}`
-  );
+  const tmp = compareMap.get(list.value[i]);
+  if (tmp != undefined) {
+    router.push(`${router.currentRoute.value.params.id}?view=${tmp}`);
+  } else {
+    router.push(`${router.currentRoute.value.params.id}`);
+  }
 }
 function getByValue(map: Map<string, ViewType>, n: ViewType) {
   for (let [key, value] of map.entries()) {
@@ -45,8 +49,9 @@ function setActive(i: number) {
 }
 function setFromQuery() {
   const value = getByValue(compareMap, cmptd.value);
+
   if (!value) {
-    setActive(0);
+    activeList.value.forEach((_, i) => (activeList.value[i] = false));
     return;
   }
   const found = list.value.findIndex((el) => el == value);

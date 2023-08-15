@@ -33,6 +33,18 @@ const data = ref<PropsType<typeof Card>[]>([
     id: "1"
   }
 ]);
+
+const coursesContainer = ref<HTMLElement>();
+
+const { width } = useElementSize(coursesContainer);
+
+watch(width, (n) => {
+  if (n < 1245) {
+    coursesContainer.value?.classList.add("max");
+  } else {
+    coursesContainer.value?.classList.remove("max");
+  }
+});
 </script>
 
 <template>
@@ -41,7 +53,7 @@ const data = ref<PropsType<typeof Card>[]>([
       v-model="current"
       :list="['Все курсы', 'Активные курсы', 'Пройденные курсы', 'Каталог курсов']"
     />
-    <div class="courses__content">
+    <div class="courses__content" ref="coursesContainer">
       <CoursesCard
         v-for="(v, i) of data"
         :key="i"
@@ -69,6 +81,13 @@ const data = ref<PropsType<typeof Card>[]>([
 
     > * {
       width: calc((100% - 30px) / 2);
+    }
+
+    &.max {
+      flex-direction: column;
+      > * {
+        width: 100%;
+      }
     }
   }
 }

@@ -13,6 +13,8 @@ function clickHandler(i: number) {
   activeList.value[i] = true;
   emit("update:modelValue", i);
 }
+
+const { width } = useWindowSize();
 </script>
 
 <template>
@@ -33,7 +35,6 @@ function clickHandler(i: number) {
 .switcher {
   display: flex;
   flex-direction: row;
-  gap: 20px;
   button {
     cursor: pointer;
     padding: 13px 25px;
@@ -48,6 +49,33 @@ function clickHandler(i: number) {
       color: var(--white);
       background: var(--primary-color);
     }
+  }
+
+  @media screen and (max-width: 768px) {
+    overflow: auto;
+
+    max-width: calc(100vw - 40px);
+
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+    &::-webkit-scrollbar {
+      display: none;
+    }
+
+    gap: 20px;
+    button {
+      white-space: nowrap;
+      padding: 0;
+
+      &.active {
+        color: var(--primary-color);
+        text-decoration: underline;
+        background: none;
+      }
+    }
+  }
+  @media screen and (max-width: 480px) {
+    max-width: calc(100vw - 20px);
   }
 }
 </style>

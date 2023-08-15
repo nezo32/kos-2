@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import AddDocument from "@/assets/svg/addDocument.svg?component";
+
 type InputType = {
   type: "input";
   placeholder: string;
@@ -153,8 +155,24 @@ const factSame = ref(false);
     </div>
     <div class="personal-data__inner">
       <h6 class="typography__title__8">Сканы документов подтверждающих личность</h6>
-      <section></section>
+      <section>
+        <fieldset>
+          <AddDocument />
+          <span class="typography__text__3"
+            >Загрузите скан паспорта, первый разворот с фото и страницы с пропиской (PDF)</span
+          >
+        </fieldset>
+        <fieldset>
+          <AddDocument />
+          <span class="typography__text__3">Загрузите скан ИНН (JPG, PDF)</span>
+        </fieldset>
+        <fieldset>
+          <AddDocument />
+          <span class="typography__text__3">Загрузите скан СНИЛС (JPG, PDF)</span>
+        </fieldset>
+      </section>
     </div>
+    <button class="typography__text__2-1">Сохранить</button>
   </div>
 </template>
 
@@ -178,6 +196,28 @@ const factSame = ref(false);
       display: flex;
       flex-direction: column;
       gap: 20px;
+
+      fieldset {
+        span {
+          max-width: 325px;
+          box-sizing: border-box;
+        }
+
+        cursor: pointer;
+        svg {
+          flex-shrink: 0;
+          padding: 20px;
+          border-radius: 14.286px;
+          background: var(--accent-background, #fbfaf8);
+        }
+
+        display: flex;
+        flex-direction: row;
+        gap: 20px;
+        align-items: center;
+        border: none;
+        padding: 0;
+      }
 
       section {
         cursor: pointer;
@@ -203,6 +243,18 @@ const factSame = ref(false);
         }
       }
     }
+  }
+
+  > button {
+    cursor: pointer;
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    padding: 14.5px;
+    width: 220px;
+    border: none;
+    background: var(--primary-color);
+    color: var(--white);
   }
 
   h6 {

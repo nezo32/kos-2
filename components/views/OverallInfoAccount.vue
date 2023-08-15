@@ -219,6 +219,7 @@ const additional = ref<Display>([
     }
 
     > button {
+      cursor: pointer;
       border-radius: 10px;
       display: flex;
       align-items: center;

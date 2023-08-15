@@ -52,7 +52,7 @@ agreementText.value = agreementText.value.replace(
       <ViewsPersonalDataAccount v-if="currentType == 1" />
       <ViewsEducationWorkAccount v-if="currentType == 2" />
       <ViewsSecurityAccount v-if="currentType == 3" />
-      <div class="account__inner__about typography__text__3">
+      <div class="account__inner__about typography__text__3" v-if="currentType != 3">
         <section>
           <IconsVerifiedIcon :verified="verified" />
           <span v-html="verificationText.replaceAll('\n', '<br />')"></span>
