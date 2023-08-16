@@ -80,6 +80,7 @@ onClickOutside(sidebar, () => {
       </div>
       <div class="side-bar__content__routes">
         <SideBarRoute
+          @click-route="emit('closeMenu')"
           v-for="(v, i) of links"
           :key="i"
           :to="v.to"

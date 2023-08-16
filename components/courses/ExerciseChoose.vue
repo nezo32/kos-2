@@ -15,6 +15,10 @@ const position = ref({
   x: 0
 });
 
+const { width } = useWindowSize();
+
+const formatted = computed(() => (width.value - 600) / 2 + "px");
+
 function left() {
   if (!pagesContainer.value) return;
   if (props.current > 1) {
@@ -96,7 +100,7 @@ function dblclck(v: number) {
         {{ `${v} занятие` }}
       </span>
     </div>
-    <div class="exercise__choose__reply" @click="clck()">
+    <div class="exercise__choose__reply" @click="clck()" v-if="false">
       <span class="typography__text__3" :class="{ active: props.reply }">Отзыв</span>
     </div>
     <IconsPageSwitchArrow @click="right" />
@@ -105,13 +109,41 @@ function dblclck(v: number) {
 
 <style scoped lang="scss">
 .exercise__choose {
+  width: 100%;
+
+  justify-content: flex-end;
+
   display: flex;
   flex-direction: row;
   align-items: center;
   gap: 40px;
 
+  @media screen and (max-width: 1280px) {
+    justify-content: space-between;
+  }
+
   &__inner {
-    max-width: 730px;
+    width: v-bind(formatted);
+
+    @media screen and (max-width: 1280px) {
+      width: 550px;
+    }
+    @media screen and (max-width: 740px) {
+      width: 400px;
+    }
+    @media screen and (max-width: 580px) {
+      width: 350px;
+    }
+    @media screen and (max-width: 525px) {
+      width: 300px;
+    }
+    @media screen and (max-width: 480px) {
+      width: 250px;
+    }
+    @media screen and (max-width: 440px) {
+      width: 200px;
+    }
+
     user-select: none;
     overflow: auto;
     scroll-behavior: smooth;
@@ -127,6 +159,16 @@ function dblclck(v: number) {
     align-items: center;
 
     > span {
+      @media screen and (max-width: 740px) {
+        width: 100px;
+      }
+      @media screen and (max-width: 580px) {
+        width: 90px;
+      }
+      @media screen and (max-width: 480px) {
+        width: 80px;
+      }
+
       padding: 13px 0px;
       flex-shrink: 0;
       text-align: center;
@@ -175,12 +217,13 @@ function dblclck(v: number) {
   }
 
   > * {
-    &:nth-child(4) {
+    &:nth-child(3) {
       transform: rotate(180deg);
     }
   }
 
   svg {
+    flex-shrink: 0;
     cursor: pointer;
     color: var(--text-meta-color);
     &:hover {

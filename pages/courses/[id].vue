@@ -90,7 +90,7 @@ onMounted(() => {
 <template>
   <div class="course">
     <div class="course__header">
-      <CoursesSwitcherViewType v-model="view" />
+      <CoursesSwitcherViewType v-model="view" style="flex-shrink: 0" />
       <CoursesExerciseChoose
         v-model:current="currentExercise"
         :count="countExercises"
@@ -121,8 +121,16 @@ onMounted(() => {
   &__header {
     display: flex;
     flex-direction: row;
+    gap: 40px;
     align-items: center;
     justify-content: space-between;
+
+    @media screen and (max-width: 1280px) {
+      flex-direction: column;
+      > * {
+        width: 100%;
+      }
+    }
   }
   > * {
     &:nth-child(2) {

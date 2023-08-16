@@ -148,7 +148,7 @@ onUpdated(() => {
     display: flex;
     justify-content: center;
     &__wrapper {
-      width: 1040px;
+      width: 840px;
 
       display: flex;
       flex-direction: row;

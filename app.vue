@@ -3,20 +3,23 @@ const sideBar = ref(false);
 
 const { width } = useWindowSize();
 
-watch(width, () => {
+function set() {
+  if (sideBar.value) return;
   if (width.value >= 1000) {
     sideBar.value = true;
   } else {
     sideBar.value = false;
   }
-});
+}
 
+watch(width, () => {
+  set();
+});
+onUpdated(() => {
+  set();
+});
 onMounted(() => {
-  if (width.value >= 1000) {
-    sideBar.value = true;
-  } else {
-    sideBar.value = false;
-  }
+  set();
 });
 </script>
 

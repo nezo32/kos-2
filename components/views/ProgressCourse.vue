@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import DotIcon from "@/assets/svg/dotBig.svg?component";
 const data = ref<{ name: string; status: string; result?: string }[]>([
   {
     name: "Лекция: Визуальная коммуникация и графический дизайн",
@@ -20,6 +21,31 @@ const data = ref<{ name: string; status: string; result?: string }[]>([
     status: "Доступно после 25.02.2023"
   }
 ]);
+
+const openData = ref(data.value.map(() => false));
+
+const { width } = useWindowSize();
+
+const cmptd = computed(() => {
+  if (width.value < 768) {
+    return 100;
+  }
+  if (width.value < 1280) {
+    return 160;
+  }
+  return 200;
+});
+const cmptdInner = computed(() => {
+  if (width.value < 768) {
+    return 80;
+  }
+  if (width.value < 1280) {
+    return 130;
+  }
+  return 140;
+});
+
+const show = computed(() => width.value > 768);
 </script>
 
 <template>
@@ -30,8 +56,8 @@ const data = ref<{ name: string; status: string; result?: string }[]>([
           :current="50"
           :max="100"
           show-percents
-          :size="200"
-          :inner-size="140"
+          :size="cmptd"
+          :inner-size="cmptdInner"
         >
           <template #default="{ data }">
             <h4 class="typography__title__4" style="margin: 0; color: var(--primary-color)">
@@ -57,7 +83,7 @@ const data = ref<{ name: string; status: string; result?: string }[]>([
         </span>
       </div>
     </div>
-    <div class="progress__course__table">
+    <div class="progress__course__table" v-if="show">
       <table class="typography__text__2">
         <thead>
           <tr>
@@ -87,11 +113,59 @@ const data = ref<{ name: string; status: string; result?: string }[]>([
         </tbody>
       </table>
     </div>
+    <div class="progress__course__list" v-if="!show">
+      <h5 class="typography__title__6">Статус занятий</h5>
+      <section v-for="(v, i) of data" :class="{ active: openData[i] }">
+        <header>
+          <aside @click="openData[i] = !openData[i]">
+            <IconsModuleArrowIcon :class="{ up: !openData[i] }" />
+            {{ `${i + 1} занятие` }}
+          </aside>
+          <DotIcon :class="{ green: v.result == 'Проверено', red: v.result == 'Отклонено' }" />
+        </header>
+        <article class="typography__text__3" v-if="openData[i]">
+          <div>
+            <p>Название:</p>
+            <span>{{ v.name }}</span>
+          </div>
+          <div>
+            <p>Статус:</p>
+            <span
+              :class="{
+                green: v.status.includes('Доступно до'),
+                lightgrey: v.status.includes('Закрыто'),
+                grey: v.status.includes('Доступно после')
+              }"
+              >{{ v.status }}</span
+            >
+          </div>
+          <div v-if="v.result">
+            <p>Результат:</p>
+            <span :class="{ green: v.result == 'Проверено', red: v.result == 'Отклонено' }">{{
+              v.result
+            }}</span>
+          </div>
+        </article>
+      </section>
+    </div>
   </div>
 </template>
 
 <style scoped lang="scss">
 .progress__course {
+  .green {
+    color: var(--accent-green);
+  }
+  .grey {
+    color: var(--text-grey);
+  }
+  .lightgrey {
+    color: var(--text-meta-color);
+  }
+  .red {
+    color: var(--primary-color);
+  }
+
   display: flex;
   flex-direction: column;
   gap: 30px;
@@ -107,6 +181,10 @@ const data = ref<{ name: string; status: string; result?: string }[]>([
     gap: 30px;
     justify-content: space-between;
 
+    @media screen and (max-width: 1280px) {
+      flex-direction: column;
+    }
+
     > * {
       padding: 30px;
       border-radius: 10px;
@@ -121,6 +199,17 @@ const data = ref<{ name: string; status: string; result?: string }[]>([
         display: flex;
         flex-direction: column;
         gap: 10px;
+      }
+
+      @media screen and (max-width: 768px) {
+        flex-direction: column;
+        justify-content: flex-start;
+
+        > * {
+          &:nth-child(1) {
+            width: fit-content;
+          }
+        }
       }
     }
     &__certificate {
@@ -156,19 +245,64 @@ const data = ref<{ name: string; status: string; result?: string }[]>([
         text-align: center;
         padding: 20px;
       }
+    }
+  }
 
-      td {
-        &.green {
-          color: var(--accent-green);
+  &__list {
+    color: var(--text-color);
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+
+    > section {
+      &.active {
+        border: 1px solid var(--primary-color);
+      }
+
+      border-radius: 10px;
+      background: var(--white, #fff);
+      border: 1px solid var(--white);
+      padding: 20px;
+
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+
+      > header {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+
+        > aside {
+          display: flex;
+          flex-direction: row;
+          gap: 20px;
+          align-items: center;
         }
-        &.grey {
+
+        svg {
+          cursor: pointer;
           color: var(--text-grey);
+
+          &.up {
+            transform: rotate(180deg);
+          }
         }
-        &.lightgrey {
-          color: var(--text-meta-color);
-        }
-        &.red {
-          color: var(--primary-color);
+      }
+
+      > article {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+        > div {
+          display: flex;
+          flex-direction: column;
+          gap: 4px;
+          p {
+            color: var(--text-meta-color);
+            margin: 0;
+          }
         }
       }
     }

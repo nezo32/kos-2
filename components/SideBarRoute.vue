@@ -5,11 +5,13 @@ defineProps<{
   icon: Component;
   hideText?: boolean;
 }>();
+
+const emits = defineEmits(["clickRoute"]);
 </script>
 
 <template>
   <div class="side-bar__route">
-    <NuxtLink :to="to">
+    <NuxtLink :to="to" @click="emits('clickRoute')">
       <component :is="icon" style="flex-shrink: 0" />
       <span class="typography__text__2" v-if="!hideText">{{ title }}</span>
     </NuxtLink>

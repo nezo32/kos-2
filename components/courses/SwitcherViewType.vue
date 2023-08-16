@@ -94,6 +94,14 @@ onBeforeUpdate(() => {
   display: flex;
   flex-direction: row;
   gap: 20px;
+
+  @media screen and (max-width: 500px) {
+    flex-direction: column;
+    gap: 10px;
+    width: 100%;
+    flex-shrink: 1 !important;
+  }
+
   button {
     cursor: pointer;
     padding: 12px 13px;

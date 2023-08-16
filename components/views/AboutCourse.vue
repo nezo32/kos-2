@@ -93,6 +93,12 @@ defineProps<{
       width: calc((100% - 30px) / 2);
     }
 
+    @media screen and (max-width: 1600px) {
+      > * {
+        width: 100%;
+      }
+    }
+
     article {
       display: flex;
       flex-direction: row;
@@ -124,6 +130,10 @@ defineProps<{
       display: flex;
       flex-direction: row;
       gap: 20px;
+
+      @media screen and (max-width: 900px) {
+        flex-direction: column;
+      }
 
       article {
         padding: 10px 20px;
@@ -178,6 +188,10 @@ defineProps<{
           }
 
           article {
+            @media screen and (max-width: 900px) {
+              display: none;
+            }
+
             display: flex;
             flex-direction: row;
             align-items: center;

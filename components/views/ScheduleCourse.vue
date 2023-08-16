@@ -28,11 +28,14 @@ const data = ref<DataType[]>([
     header: "Лекция: Визуальная коммуникация и графический дизайн"
   }
 ]);
+
+const { width } = useWindowSize();
+const show = computed(() => width.value > 1280);
 </script>
 
 <template>
   <div class="schedule__course">
-    <CoursesScheduleComponent />
+    <CoursesScheduleComponent v-if="show" />
     <div class="schedule__course__content">
       <section v-for="(v, i) of data" :key="i">
         <h5 style="color: black">
@@ -71,6 +74,13 @@ const data = ref<DataType[]>([
       display: flex;
       flex-direction: row;
       gap: 80px;
+
+      @media screen and (max-width: 1000px) {
+        gap: 35px;
+      }
+      @media screen and (max-width: 768px) {
+        flex-direction: column;
+      }
 
       h5 {
         span {
