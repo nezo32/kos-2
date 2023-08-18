@@ -37,10 +37,10 @@ const cmptd = computed(() => {
 });
 const cmptdInner = computed(() => {
   if (width.value < 768) {
-    return 80;
+    return 70;
   }
   if (width.value < 1280) {
-    return 130;
+    return 110;
   }
   return 140;
 });
@@ -87,7 +87,7 @@ const show = computed(() => width.value > 768);
       <table class="typography__text__2">
         <thead>
           <tr>
-            <th>Занятие</th>
+            <th style="width: 200px">Занятие</th>
             <th>Название</th>
             <th>Статус</th>
             <th>Результат</th>
@@ -95,7 +95,7 @@ const show = computed(() => width.value > 768);
         </thead>
         <tbody>
           <tr v-for="(v, i) of data" :key="i">
-            <td>{{ `${i + 1} занятие` }}</td>
+            <td style="width: 200px">{{ `${i + 1} занятие` }}</td>
             <td>{{ v.name }}</td>
             <td
               :class="{
@@ -213,6 +213,13 @@ const show = computed(() => width.value > 768);
       }
     }
     &__certificate {
+      @media screen and (max-width: 1280px) {
+        width: 500px;
+      }
+      @media screen and (max-width: 768px) {
+        width: 100%;
+      }
+
       display: flex;
       flex-direction: column;
       gap: 10px;
@@ -244,6 +251,12 @@ const show = computed(() => width.value > 768);
 
         text-align: center;
         padding: 20px;
+        box-sizing: border-box;
+      }
+      td {
+        &:nth-child(2) {
+          text-align: left;
+        }
       }
     }
   }

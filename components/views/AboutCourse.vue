@@ -63,7 +63,7 @@ defineProps<{
           </section>
         </article>
       </div>
-      <button class="typography__text__2-1">Все модули</button>
+      <button class="typography__button">Все модули</button>
     </div>
   </div>
 </template>
@@ -81,6 +81,10 @@ defineProps<{
     object-fit: cover;
     object-position: 25% 25%;
     border-radius: 10px;
+
+    @media screen and (max-width: 768px) {
+      height: 250px;
+    }
   }
 
   &__creators {
@@ -111,12 +115,19 @@ defineProps<{
       }
 
       section {
+        align-self: flex-start;
         display: flex;
         flex-direction: column;
         gap: 4px;
 
         h5 {
           margin: 0;
+        }
+
+        span {
+          @media screen and (max-width: 480px) {
+            display: none;
+          }
         }
       }
     }
@@ -132,7 +143,7 @@ defineProps<{
       gap: 20px;
 
       @media screen and (max-width: 900px) {
-        flex-direction: column;
+        flex-wrap: wrap;
       }
 
       article {

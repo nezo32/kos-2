@@ -9,15 +9,6 @@ const props = defineProps<{
 }>();
 const emits = defineEmits(["update:modelValue"]);
 
-const cmptd = computed({
-  get() {
-    return props.modelValue;
-  },
-  set(value) {
-    emits("update:modelValue", value);
-  }
-});
-
 const searched = computed(() => {
   const data: string[] = [];
 
@@ -33,19 +24,21 @@ const allContainer = ref<HTMLElement>();
 const input = ref("");
 const dropdownActive = ref(false);
 
+const { width } = useElementSize(allContainer);
+
 const top = computed(() => {
   if (!allContainer.value) return "0px";
   return allContainer.value.offsetHeight + 10 + "px";
 });
 const witdh = computed(() => {
   if (!allContainer.value) return "0px";
-  return allContainer.value.clientWidth + "px";
+  return width.value + "px";
 });
 
-function clickHandler() {
+function clickHandler(ev: MouseEvent) {
   if (!inputContainer.value) return;
 
-  dropdownActive.value = true;
+  dropdownActive.value = !dropdownActive.value;
 }
 function select(v: string) {
   input.value = v;
@@ -60,7 +53,7 @@ useDetectOutsideElementClick(allContainer, () => {
 
 <template>
   <div class="dropdown" ref="allContainer">
-    <div class="dropdown-input" @click="clickHandler()">
+    <div class="dropdown-input" @click="clickHandler">
       <input
         type="text"
         :placeholder="placeholder"
@@ -68,7 +61,7 @@ useDetectOutsideElementClick(allContainer, () => {
         class="typography__text__2"
         ref="inputContainer"
       />
-      <ArrowDropdown :class="{ down: dropdownActive }" />
+      <ArrowDropdown :class="{ down: dropdownActive }" style="cursor: pointer" />
     </div>
     <div class="dropdown-inner" v-if="dropdownActive && searched.length">
       <span v-for="(v, i) of searched" :key="i" class="typography__text__2" @click="select(v)">

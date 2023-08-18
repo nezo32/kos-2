@@ -55,14 +55,68 @@ function arrowClickHandler() {
 const { width } = useWindowSize();
 const sidebar = ref();
 
+const wideMonitor = ref(false);
+const justHideArrow = ref(false);
+
 onClickOutside(sidebar, () => {
   emit("closeMenu");
+});
+
+function set() {
+  wideMonitor.value = width.value > 1920;
+  justHideArrow.value = width.value < 1000;
+}
+
+watch(width, () => {
+  set();
+});
+onUpdated(() => {
+  set();
+});
+onMounted(() => {
+  set();
 });
 </script>
 
 <template>
-  <div class="side-bar" :class="{ hide }" ref="sidebar">
-    <div class="side-bar__content">
+  <div class="side-bar" :class="{ hide, wideMonitor, justHideArrow }" ref="sidebar">
+    <article v-if="!wideMonitor && !justHideArrow">
+      <div class="side-bar__content">
+        <div class="side-bar__content__header">
+          <IconsLogoIcon
+            v-if="!hideText"
+            class="side-bar__content__header__logo"
+            @click="router.push('/')"
+          />
+          <IconsCircleArrowIcon
+            v-if="!justHideArrow && !wideMonitor"
+            style="padding: 10px 14px"
+            @click="arrowClickHandler"
+            class="side-bar__content__header__arrow"
+            :class="{ right: hide }"
+          />
+          <CrossIcon style="padding: 10px 14px" v-if="width < 1000" @click="emit('closeMenu')" />
+        </div>
+        <div class="side-bar__content__routes">
+          <SideBarRoute
+            @click-route="emit('closeMenu')"
+            v-for="(v, i) of links"
+            :key="i"
+            :to="v.to"
+            :title="v.title"
+            :icon="v.icon"
+            :hide-text="hideText"
+          />
+        </div>
+      </div>
+      <div class="side-bar__copyright" v-if="!hideText">
+        <span class="typography__text__4">
+          © 2023 ФГБОУ ВО<br />
+          «РГУ им. А.Н. Косыгина»
+        </span>
+      </div>
+    </article>
+    <div class="side-bar__content" v-if="wideMonitor || justHideArrow">
       <div class="side-bar__content__header">
         <IconsLogoIcon
           v-if="!hideText"
@@ -70,7 +124,7 @@ onClickOutside(sidebar, () => {
           @click="router.push('/')"
         />
         <IconsCircleArrowIcon
-          v-if="width >= 1000"
+          v-if="!justHideArrow && !wideMonitor"
           style="padding: 10px 14px"
           @click="arrowClickHandler"
           class="side-bar__content__header__arrow"
@@ -90,7 +144,7 @@ onClickOutside(sidebar, () => {
         />
       </div>
     </div>
-    <div class="side-bar__copyright" v-if="!hideText">
+    <div class="side-bar__copyright" v-if="!hideText && (wideMonitor || justHideArrow)">
       <span class="typography__text__4">
         © 2023 ФГБОУ ВО<br />
         «РГУ им. А.Н. Косыгина»
@@ -100,20 +154,35 @@ onClickOutside(sidebar, () => {
 </template>
 
 <style scoped lang="scss">
+.wideMonitor {
+  display: flex;
+  flex-direction: column;
+  border-radius: 0px 0px 10px 10px;
+  justify-content: space-between;
+}
 .side-bar {
-  transition: width 0.3s ease-in-out;
+  flex-shrink: 0;
+  transition: max-width 0.3s ease-in-out;
   &.hide {
-    width: 112px;
+    max-width: 112px;
+  }
+
+  article {
+    position: fixed;
+    height: 95vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+
+  &.justHideArrow {
+    width: 256px !important;
   }
 
   overflow: hidden;
-  width: 256px;
+  max-width: 256px;
 
   box-sizing: border-box;
-
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
 
   padding: 40px 30px 30px 30px;
   background: var(--primary-color, #ca3b4c);

@@ -92,6 +92,12 @@ function emoji() {}
             :class="{ right: v.client }"
           >
             <img :src="v.image ?? '/images/ph.png'" alt="ph" />
+            <div class="support__chat__content__data__inner">
+              <section>
+                <span class="typography__text__3">{{ v.data }}</span>
+              </section>
+              <p class="typography__text__4">{{ v.time }}</p>
+            </div>
           </div>
         </div>
       </aside>
@@ -174,10 +180,20 @@ function emoji() {}
   flex-direction: row;
   gap: 32px;
   color: var(--text-color);
+
+  @media screen and (max-width: 1600px) {
+    flex-direction: column;
+  }
+
   &__info {
     display: flex;
     flex-direction: column;
     gap: 30px;
+
+    @media screen and (max-width: 1919px) {
+      gap: 20px;
+    }
+
     section {
       svg {
         flex-shrink: 0;
@@ -213,12 +229,21 @@ function emoji() {}
     }
 
     &__inner {
+      @media screen and (max-width: 1919px) {
+        flex-direction: column;
+      }
       > * {
+        @media screen and (max-width: 1919px) {
+          width: 100%;
+        }
         width: calc((100% - 30px) / 2);
       }
       display: flex;
       flex-direction: row;
       gap: 30px;
+      @media screen and (max-width: 1919px) {
+        gap: 20px;
+      }
     }
 
     article {
@@ -237,10 +262,13 @@ function emoji() {}
     flex-shrink: 0;
     box-sizing: border-box;
     width: 660px;
-    height: calc(80vh);
     border-radius: 20px;
     background: var(--white, #fff);
     box-shadow: 0px 8px 20px 0px rgba(202, 59, 76, 0.1);
+
+    @media screen and (max-width: 1280px) {
+      width: 100%;
+    }
 
     aside {
       > * {
@@ -292,19 +320,71 @@ function emoji() {}
       padding-bottom: 25px;
     }
     &__content {
-      max-height: 736px;
+      box-sizing: border-box;
+      max-height: 60vh;
+      overflow: auto;
+
       padding-top: 40px;
       padding-bottom: 40px;
 
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+
       &__data {
+        &.right {
+          flex-direction: row-reverse;
+
+          > div {
+            align-items: flex-end;
+          }
+
+          section {
+            background: var(--primary-color);
+            color: var(--white);
+          }
+          p {
+            display: flex;
+            justify-content: flex-end;
+          }
+        }
+
+        display: flex;
+        flex-direction: row;
+        gap: 20px;
         img {
+          flex-shrink: 0;
           width: 40px;
           height: 40px;
           border-radius: 100%;
+          object-fit: cover;
+          object-position: 25% 25%;
+        }
+        &__inner {
+          display: flex;
+          flex-direction: column;
+          gap: 10px;
+
+          section {
+            @media screen and (max-width: 1280px) {
+              width: 100%;
+            }
+            box-sizing: border-box;
+            width: 70%;
+            color: var(--text-color);
+
+            border-radius: 10px;
+            padding: 10px 20px;
+            background: var(--accent-background, #fbfaf8);
+          }
+          > p {
+            margin: 0;
+          }
         }
       }
     }
     &__input {
+      flex-shrink: 0;
       display: flex;
       flex-direction: row;
       justify-content: space-between;

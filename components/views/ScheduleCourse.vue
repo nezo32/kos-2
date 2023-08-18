@@ -84,10 +84,19 @@ const show = computed(() => width.value > 1280);
         gap: 35px;
       }
       @media screen and (max-width: 768px) {
+        gap: 20px;
+      }
+      @media screen and (max-width: 768px) {
         flex-direction: column;
       }
 
       h5 {
+        margin: 0;
+        @media screen and (max-width: 768px) {
+          display: flex;
+          flex-direction: column;
+          align-items: flex-start;
+        }
         span {
           display: flex;
           flex-direction: column;

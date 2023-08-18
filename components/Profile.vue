@@ -10,7 +10,7 @@ defineProps<{
   <div class="profile">
     <div class="profile__inner">
       <span class="typography__text__2">{{ username }}</span>
-      <p class="typography__text__3">{{ email }}</p>
+      <p class="typography__mail">{{ email }}</p>
     </div>
     <img
       :src="picture ?? 'https://wallpapers-clan.com/wp-content/uploads/2023/05/cool-pfp-02.jpg'"

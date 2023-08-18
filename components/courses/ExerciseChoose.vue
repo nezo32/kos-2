@@ -109,6 +109,7 @@ function dblclck(v: number) {
 
 <style scoped lang="scss">
 .exercise__choose {
+  user-select: none;
   width: 100%;
 
   justify-content: flex-end;

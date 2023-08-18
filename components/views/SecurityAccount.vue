@@ -3,23 +3,23 @@
 <template>
   <div class="security">
     <div class="security__inner">
-      <h6 class="typography__title__8">Двухфакторная аутентификация</h6>
+      <h6 class="typography__title__7-2">Двухфакторная аутентификация</h6>
       <section>
         <span class="typography__text__3">
           Двухфакторная аутентификация — это дополнительный уровень безопасности, который
           гарантирует, что доступ к вашей учетной записи сможете получить только вы, даже если ваш
           пароль стал известен кому-то еще.
         </span>
-        <button class="typography__text__2-1">Отключить</button>
+        <button class="typography__button">Отключить</button>
       </section>
     </div>
     <div class="security__inner">
-      <h6 class="typography__title__8">Изменение пароля</h6>
+      <h6 class="typography__title__7-2">Изменение пароля</h6>
       <section>
         <span class="typography__text__3">
           Если вы забыли или потеряли пароль, его можно изменить или сбросить.
         </span>
-        <button class="typography__text__2-1 another">Изменить пароль</button>
+        <button class="typography__button another">Изменить пароль</button>
       </section>
     </div>
   </div>

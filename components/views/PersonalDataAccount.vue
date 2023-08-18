@@ -108,7 +108,7 @@ const showBig = computed(() => width.value > 768);
 <template>
   <div class="personal-data">
     <div class="personal-data__inner">
-      <h6 class="typography__title__8">Основная информация</h6>
+      <h6 class="typography__title__7-2">Основная информация</h6>
       <section>
         <InputsDropdownInput
           :data="type.data"
@@ -132,7 +132,7 @@ const showBig = computed(() => width.value > 768);
       </section>
     </div>
     <div class="personal-data__inner">
-      <h6 class="typography__title__8">Фактическое проживание</h6>
+      <h6 class="typography__title__7-2">Фактическое проживание</h6>
       <section>
         <section @click="factSame = !factSame">
           <IconsCheckboxBoxedIcon :active="factSame" />
@@ -151,7 +151,7 @@ const showBig = computed(() => width.value > 768);
       </section>
     </div>
     <div class="personal-data__inner">
-      <h6 class="typography__title__8">Дополнительные документы</h6>
+      <h6 class="typography__title__7-2">Дополнительные документы</h6>
       <section>
         <template v-for="(v, i) of additional">
           <InputsInput v-if="v.type == 'input'" :placeholder="v.placeholder" v-model="v.content" />
@@ -159,7 +159,7 @@ const showBig = computed(() => width.value > 768);
       </section>
     </div>
     <div class="personal-data__inner">
-      <h6 class="typography__title__8">Сканы документов подтверждающих личность</h6>
+      <h6 class="typography__title__7-2">Сканы документов подтверждающих личность</h6>
       <section>
         <fieldset>
           <AddDocument v-if="showBig" />
@@ -180,7 +180,7 @@ const showBig = computed(() => width.value > 768);
         </fieldset>
       </section>
     </div>
-    <button class="typography__text__2-1">Сохранить</button>
+    <button class="typography__button">Сохранить</button>
   </div>
 </template>
 

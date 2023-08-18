@@ -74,7 +74,7 @@ onBeforeUpdate(() => {
 <template>
   <div class="switcher">
     <button
-      class="typography__text__3"
+      class="typography__menu-upper"
       v-for="(v, i) of list"
       :key="i"
       :class="{ active: activeList[i] }"
@@ -95,11 +95,12 @@ onBeforeUpdate(() => {
   flex-direction: row;
   gap: 20px;
 
-  @media screen and (max-width: 500px) {
-    flex-direction: column;
+  @media screen and (max-width: 480px) {
+    /* flex-direction: column;
     gap: 10px;
     width: 100%;
-    flex-shrink: 1 !important;
+    flex-shrink: 1 !important; */
+    gap: 10px;
   }
 
   button {

@@ -20,7 +20,7 @@ const { width } = useWindowSize();
 <template>
   <div class="switcher">
     <button
-      class="typography__text__3"
+      class="typography__menu-upper"
       v-for="(v, i) of list"
       :key="i"
       :class="{ active: activeList[i] }"
@@ -35,6 +35,18 @@ const { width } = useWindowSize();
 .switcher {
   display: flex;
   flex-direction: row;
+  @media screen and (max-width: 1280px) {
+    width: 100%;
+
+    > * {
+      width: 100%;
+    }
+
+    button {
+      padding: 13px 0px !important;
+    }
+  }
+
   button {
     cursor: pointer;
     padding: 13px 25px;

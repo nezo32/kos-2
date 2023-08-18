@@ -83,6 +83,10 @@ onMounted(async () => {
   }
 
   &__routing {
+    @media screen and (max-width: 1000px) {
+      visibility: hidden;
+    }
+
     color: var(--text-color);
   }
 }

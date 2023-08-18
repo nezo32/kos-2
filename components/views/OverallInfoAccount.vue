@@ -77,6 +77,24 @@ const additional = ref<Display>([
     placeholder: "Ссылка на личную страницу в Одноклассниках"
   }
 ]);
+
+const { width } = useWindowSize();
+
+const inputsShowAnother = ref(false);
+
+function set() {
+  inputsShowAnother.value = width.value <= 768;
+}
+
+watch(width, () => {
+  set();
+});
+onUpdated(() => {
+  set();
+});
+onMounted(() => {
+  set();
+});
 </script>
 
 <template>
@@ -106,7 +124,7 @@ const additional = ref<Display>([
       </div>
       <div class="overall__inner__contacts">
         <h6 class="typography__title__8">Контакты</h6>
-        <section>
+        <section v-if="!inputsShowAnother">
           <template v-for="(v, i) of contacts">
             <InputsInput
               v-if="v.type == 'input'"
@@ -125,6 +143,24 @@ const additional = ref<Display>([
             </template>
           </template>
         </section>
+        <section v-if="inputsShowAnother">
+          <template v-for="(v, i) of contacts">
+            <InputsInput
+              v-if="v.type == 'input'"
+              v-model="v.content"
+              :placeholder="v.placeholder"
+            />
+            <span
+              class="typography__text__3"
+              v-if="v.type == 'input' && v.placeholder == 'Телефон'"
+            >
+              Подтвердить телефон
+            </span>
+            <span class="typography__text__3" v-if="v.type == 'input' && v.placeholder == 'Почта'">
+              Подтвердить почту
+            </span>
+          </template>
+        </section>
       </div>
       <div class="overall__inner__additional">
         <h6 class="typography__title__8">Дополнительная информация</h6>
@@ -138,7 +174,7 @@ const additional = ref<Display>([
           </template>
         </section>
       </div>
-      <button class="typography__text__2-1">Сохранить</button>
+      <button class="typography__button">Сохранить</button>
     </div>
   </div>
 </template>
@@ -239,6 +275,10 @@ const additional = ref<Display>([
       border: none;
       background: var(--primary-color);
       color: var(--white);
+
+      @media screen and (max-width: 768px) {
+        width: 100%;
+      }
     }
   }
 

@@ -58,7 +58,7 @@ const height = computed(() => width.value / 1.78 + "px");
           <h5 class="typography__title__7-2">{{ header.name }}</h5>
           <span class="typography__text__2">{{ `Занятие доступно до ${header.date}` }}</span>
         </article>
-        <span class="typography__text__1">
+        <span class="typography__text__2">
           <span>статус: </span>
           <span>{{ header.status }}</span>
         </span>
@@ -72,7 +72,7 @@ const height = computed(() => width.value / 1.78 + "px");
         </section>
       </div>
       <div class="exersise__course__header__about">
-        <h6 class="typography__title__8">Описание занятия</h6>
+        <h6 class="typography__title__7-2">Описание занятия</h6>
         <span class="typography__text__2" v-html="desc.replaceAll('\n', '<br /><br />')"></span>
       </div>
     </div>
@@ -88,24 +88,24 @@ const height = computed(() => width.value / 1.78 + "px");
         allowfullscreen
       />
       <section>
-        <h6 class="typography__title__8">Структура занятия</h6>
+        <h6 class="typography__title__7-2">Структура занятия</h6>
         <span v-for="(v, i) of structure" :key="i">
-          <p class="typography__title__8">{{ i + 1 }}</p>
+          <p class="typography__title__7-2">{{ i + 1 }}</p>
           <span class="typography__text__2">{{ v }}</span>
         </span>
       </section>
     </div>
     <div class="exersise__course__additional-files">
-      <h6 class="typography__title__8">Дополнительные файлы</h6>
+      <h6 class="typography__title__7-2">Дополнительные файлы</h6>
       <section>
         <a v-for="(v, i) of files" :key="i" :href="v.url">
           <IconsDocDownloadIcon />
-          <span>{{ v.name }}</span>
+          <span class="typography__text__2">{{ v.name }}</span>
         </a>
       </section>
     </div>
     <div class="exersise__course__testing">
-      <h6 class="typography__title__8">Тестирование</h6>
+      <h6 class="typography__title__7-2">Тестирование</h6>
       <CoursesTestingExercise />
     </div>
   </div>

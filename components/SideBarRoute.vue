@@ -13,7 +13,7 @@ const emits = defineEmits(["clickRoute"]);
   <div class="side-bar__route">
     <NuxtLink :to="to" @click="emits('clickRoute')">
       <component :is="icon" style="flex-shrink: 0" />
-      <span class="typography__text__2" v-if="!hideText">{{ title }}</span>
+      <span class="typography__menu" v-if="!hideText">{{ title }}</span>
     </NuxtLink>
   </div>
 </template>

@@ -47,7 +47,6 @@ const data = ref<{ title: string; text: string; pictureUrl?: string; ago: string
   gap: 30px;
   section {
     box-sizing: border-box;
-    max-height: 180px;
     border-radius: 10px;
     background: var(--white);
     box-shadow: 0px 8px 20px 0px rgba(202, 59, 76, 0.1);
@@ -87,10 +86,6 @@ const data = ref<{ title: string; text: string; pictureUrl?: string; ago: string
         gap: 20px;
         h5,
         span {
-          display: -webkit-box;
-          -webkit-line-clamp: 2;
-          -webkit-box-orient: vertical;
-          overflow: hidden;
           flex-shrink: 0;
           margin: 0;
         }

@@ -4,6 +4,7 @@ const sideBar = ref(false);
 const { width } = useWindowSize();
 
 function set() {
+  viewpoint.value = width.value > 1920;
   if (sideBar.value) return;
   if (width.value >= 1000) {
     sideBar.value = true;
@@ -11,6 +12,8 @@ function set() {
     sideBar.value = false;
   }
 }
+
+const viewpoint = ref(false);
 
 watch(width, () => {
   set();
@@ -24,7 +27,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <main class="application">
+  <main class="application" :class="{ viewpoint: viewpoint }">
     <SideBar class="application__sidebar" v-if="sideBar" @close-menu="sideBar = !sideBar" />
     <div class="application__content">
       <ServiceHeader
@@ -47,7 +50,23 @@ onMounted(() => {
   flex-direction: row;
   min-height: 100vh;
 
+  &.viewpoint {
+    max-width: 1920px;
+    margin: 0 auto;
+    gap: 50px;
+
+    .application__sidebar {
+      height: 630px;
+    }
+  }
+
   &__content {
+    @media screen and (min-width: 1921px) {
+      width: 1920px;
+      padding: 0;
+      margin: 0;
+    }
+
     display: flex;
     flex-direction: column;
     gap: 40px;
@@ -83,7 +102,9 @@ onMounted(() => {
     position: relative;
 
     &__sidebar {
-      display: none;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
       position: absolute;
       right: 0;
       height: 100%;
