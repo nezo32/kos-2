@@ -43,6 +43,11 @@ const files = ref([
     url: "https://filesamples.com/samples/document/doc/sample2.doc"
   }
 ]);
+
+const iframe = ref();
+const { width } = useElementSize(iframe);
+
+const height = computed(() => width.value / 1.78 + "px");
 </script>
 
 <template>
@@ -73,6 +78,7 @@ const files = ref([
     </div>
     <div class="exersise__course__structure">
       <iframe
+        ref="iframe"
         width="890"
         height="500"
         src="https://www.youtube.com/embed/Q7nMll_BSwI"
@@ -113,11 +119,20 @@ const files = ref([
 
   color: var(--text-color);
 
+  iframe {
+    @media screen and (max-width: 1600px) {
+      height: v-bind(height);
+    }
+  }
+
   &__header {
     display: flex;
     flex-direction: column;
     gap: 30px;
     > section {
+      @media screen and (max-width: 1600px) {
+        flex-direction: column-reverse;
+      }
       display: flex;
       flex-direction: row;
       justify-content: space-between;
@@ -149,6 +164,15 @@ const files = ref([
       flex-direction: row;
       gap: 20px;
       width: 50%;
+      @media screen and (max-width: 1600px) {
+        width: 70%;
+      }
+      @media screen and (max-width: 1000px) {
+        width: 100%;
+      }
+      @media screen and (max-width: 768px) {
+        flex-direction: column;
+      }
       > img {
         flex-shrink: 0;
         width: 150px;
@@ -187,6 +211,13 @@ const files = ref([
   }
 
   &__structure {
+    @media screen and (max-width: 1600px) {
+      flex-direction: column-reverse;
+      iframe {
+        width: 100%;
+      }
+    }
+
     display: flex;
     flex-direction: row;
     gap: 30px;

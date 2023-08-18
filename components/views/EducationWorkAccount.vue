@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import AddDocument from "@/assets/svg/addDocument.svg?component";
+import AddDocumentSmall from "@/assets/svg/addDocumentSmall.svg?component";
 
 type InputType = {
   type: "input";
@@ -59,6 +60,10 @@ const work = ref<Display>([
     placeholder: "Занимаемая должность"
   }
 ]);
+
+const { width } = useWindowSize();
+
+const showBig = computed(() => width.value > 768);
 </script>
 
 <template>
@@ -81,7 +86,8 @@ const work = ref<Display>([
           </template>
         </article>
         <fieldset>
-          <AddDocument />
+          <AddDocument v-if="showBig" />
+          <AddDocumentSmall v-else />
           <span class="typography__text__3">
             Загрузите скан диплома об образовании с приложением (одним PDF-файлом)
           </span>
@@ -101,7 +107,8 @@ const work = ref<Display>([
           :disabled="!nameChanged"
         />
         <fieldset :class="{ disabled: !nameChanged }">
-          <AddDocument />
+          <AddDocument v-if="showBig" />
+          <AddDocumentSmall v-else />
           <span class="typography__text__3"> Загрузите подтверждающий документ (PDF, JPG) </span>
         </fieldset>
       </section>
@@ -120,6 +127,8 @@ const work = ref<Display>([
 
 <style scoped lang="scss">
 .edu-work {
+  box-sizing: border-box;
+
   display: flex;
   flex-direction: column;
   gap: 50px;
@@ -149,6 +158,11 @@ const work = ref<Display>([
         svg {
           flex-shrink: 0;
           padding: 20px;
+          @media screen and (max-width: 768px) {
+            padding: 10px;
+            width: 40px;
+            height: 40px;
+          }
           border-radius: 14.286px;
           background: var(--accent-background, #fbfaf8);
         }
@@ -185,7 +199,14 @@ const work = ref<Display>([
         gap: 20px;
         flex-wrap: wrap;
 
+        @media screen and (max-width: 768px) {
+          flex-direction: column;
+        }
+
         > * {
+          @media screen and (max-width: 768px) {
+            width: 100%;
+          }
           width: calc((100% - 20px) / 2);
         }
       }

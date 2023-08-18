@@ -79,10 +79,17 @@ agreementText.value = agreementText.value.replace(
   &__inner {
     margin-bottom: 60px;
 
+    @media screen and (max-width: 1919px) {
+      flex-direction: column-reverse;
+    }
+
     display: flex;
     flex-direction: row;
     gap: 30px;
     > * {
+      @media screen and (max-width: 1919px) {
+        width: 100% !important;
+      }
       &:nth-child(1) {
         width: calc(60% - 15px);
       }
@@ -105,8 +112,15 @@ agreementText.value = agreementText.value.replace(
         flex-direction: row;
         gap: 20px;
 
+        @media screen and (max-width: 480px) {
+          flex-direction: column;
+        }
+
         &:first-child {
           align-items: center;
+          @media screen and (max-width: 480px) {
+            align-items: unset;
+          }
         }
 
         svg {

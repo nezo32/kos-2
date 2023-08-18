@@ -27,6 +27,8 @@
 
 <style scoped lang="scss">
 .security {
+  box-sizing: border-box;
+
   display: flex;
   flex-direction: column;
   gap: 50px;
@@ -87,6 +89,10 @@
       }
 
       button {
+        @media screen and (max-width: 768px) {
+          width: 100%;
+        }
+
         cursor: pointer;
 
         padding: 13px;

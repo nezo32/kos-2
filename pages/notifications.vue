@@ -61,6 +61,11 @@ const data = ref<{ title: string; text: string; pictureUrl?: string; ago: string
     img {
       flex-shrink: 0;
 
+      @media screen and (max-width: 1280px) {
+        width: 80px;
+        height: 80px;
+      }
+
       object-fit: cover;
       object-position: 25% 25%;
       border-radius: 10px;

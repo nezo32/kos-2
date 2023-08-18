@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import AddDocument from "@/assets/svg/addDocument.svg?component";
+import AddDocumentSmall from "@/assets/svg/addDocumentSmall.svg?component";
 
 type InputType = {
   type: "input";
@@ -98,6 +99,10 @@ const additional = ref<Display>([
 ]);
 
 const factSame = ref(false);
+
+const { width } = useWindowSize();
+
+const showBig = computed(() => width.value > 768);
 </script>
 
 <template>
@@ -157,17 +162,20 @@ const factSame = ref(false);
       <h6 class="typography__title__8">Сканы документов подтверждающих личность</h6>
       <section>
         <fieldset>
-          <AddDocument />
+          <AddDocument v-if="showBig" />
+          <AddDocumentSmall v-else />
           <span class="typography__text__3"
             >Загрузите скан паспорта, первый разворот с фото и страницы с пропиской (PDF)</span
           >
         </fieldset>
         <fieldset>
-          <AddDocument />
+          <AddDocument v-if="showBig" />
+          <AddDocumentSmall v-else />
           <span class="typography__text__3">Загрузите скан ИНН (JPG, PDF)</span>
         </fieldset>
         <fieldset>
-          <AddDocument />
+          <AddDocument v-if="showBig" />
+          <AddDocumentSmall v-else />
           <span class="typography__text__3">Загрузите скан СНИЛС (JPG, PDF)</span>
         </fieldset>
       </section>
@@ -178,6 +186,8 @@ const factSame = ref(false);
 
 <style scoped lang="scss">
 .personal-data {
+  box-sizing: border-box;
+
   display: flex;
   flex-direction: column;
   gap: 50px;
@@ -207,6 +217,14 @@ const factSame = ref(false);
         svg {
           flex-shrink: 0;
           padding: 20px;
+          box-sizing: content-box;
+
+          @media screen and (max-width: 768px) {
+            padding: 10px;
+            width: 40px;
+            height: 40px;
+          }
+
           border-radius: 14.286px;
           background: var(--accent-background, #fbfaf8);
         }
@@ -233,12 +251,19 @@ const factSame = ref(false);
       }
 
       article {
+        @media screen and (max-width: 768px) {
+          flex-direction: column;
+        }
+
         display: flex;
         flex-direction: row;
         gap: 20px;
         flex-wrap: wrap;
 
         > * {
+          @media screen and (max-width: 768px) {
+            width: 100%;
+          }
           width: calc((100% - 20px) / 2);
         }
       }

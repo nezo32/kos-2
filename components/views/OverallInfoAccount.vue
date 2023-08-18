@@ -145,6 +145,7 @@ const additional = ref<Display>([
 
 <style scoped lang="scss">
 .overall {
+  box-sizing: border-box;
   display: flex;
   flex-direction: column;
   gap: 30px;
@@ -186,7 +187,14 @@ const additional = ref<Display>([
         gap: 20px;
         flex-wrap: wrap;
 
+        @media screen and (max-width: 768px) {
+          flex-direction: column;
+        }
+
         > * {
+          @media screen and (max-width: 768px) {
+            width: 100% !important;
+          }
           width: calc(50% - 10px);
         }
       }
@@ -200,6 +208,9 @@ const additional = ref<Display>([
         flex-wrap: wrap;
 
         > * {
+          @media screen and (max-width: 768px) {
+            width: 100% !important;
+          }
           width: calc(50% - 10px);
         }
 
@@ -237,6 +248,11 @@ const additional = ref<Display>([
     border-radius: 100%;
     object-fit: cover;
     object-position: 25% 25%;
+
+    @media screen and (max-width: 480px) {
+      width: 60px;
+      height: 60px;
+    }
   }
 
   h6 {
