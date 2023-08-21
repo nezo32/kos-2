@@ -69,7 +69,7 @@ const showBig = computed(() => width.value > 768);
 <template>
   <div class="edu-work">
     <div class="edu-work__inner">
-      <h6 class="typography__title__7-2">Образование</h6>
+      <h6 class="typography__title__8">Образование</h6>
       <section>
         <InputsDropdownInput
           :data="edu.data"
@@ -95,7 +95,7 @@ const showBig = computed(() => width.value > 768);
       </section>
     </div>
     <div class="edu-work__inner">
-      <h6 class="typography__title__7-2">Свидетельство о перемене имени / свидетельство о браке</h6>
+      <h6 class="typography__title__8">Свидетельство о перемене имени / свидетельство о браке</h6>
       <section>
         <section @click="nameChanged = !nameChanged">
           <IconsCheckboxBoxedIcon :active="nameChanged" />
@@ -114,7 +114,7 @@ const showBig = computed(() => width.value > 768);
       </section>
     </div>
     <div class="edu-work__inner">
-      <h6 class="typography__title__7-2">Место работы</h6>
+      <h6 class="typography__title__8">Место работы</h6>
       <section>
         <template v-for="v of work">
           <InputsInput v-if="v.type == 'input'" :placeholder="v.placeholder" v-model="v.content" />
@@ -223,6 +223,10 @@ const showBig = computed(() => width.value > 768);
     border: none;
     background: var(--primary-color);
     color: var(--white);
+
+    @media screen and (max-width: 768px) {
+      width: 100%;
+    }
   }
 
   h6 {

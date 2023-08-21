@@ -11,10 +11,21 @@ defineProps<{
 }>();
 
 const router = useRouter();
+
+function wrapperClick(ev: MouseEvent, id: string) {
+  if ((ev.target as HTMLElement).tagName == "BUTTON") return;
+  console.log((ev.target as HTMLElement).tagName);
+  router.push({
+    path: "/courses/" + id,
+    query: {
+      view: "description"
+    }
+  });
+}
 </script>
 
 <template>
-  <div class="card">
+  <div class="card" @click="(ev) => wrapperClick(ev, id)">
     <img
       :src="picture ?? 'images/placeholder-card.png'"
       alt="card-image"
@@ -36,7 +47,7 @@ const router = useRouter();
             router.push({
               path: '/courses/' + id,
               query: {
-                view: 'progress'
+                view: `exercise${id}`
               }
             })
           "
@@ -63,6 +74,8 @@ const router = useRouter();
 
 <style scoped lang="scss">
 .card {
+  cursor: pointer;
+
   box-sizing: border-box;
   border-radius: 10px;
 
@@ -95,13 +108,17 @@ const router = useRouter();
     flex-direction: column;
     justify-content: space-between;
     &__header {
+      @media screen and (max-width: 768px) {
+        margin-bottom: 20px;
+      }
+
       display: flex;
       flex-direction: row;
       justify-content: space-between;
       gap: 20px;
       h4 {
         margin: 0;
-        height: 58px;
+        //height: 58px;
         display: -webkit-box;
         -webkit-line-clamp: 2;
         -webkit-box-orient: vertical;

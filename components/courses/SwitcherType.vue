@@ -4,17 +4,6 @@ const props = defineProps<{
   modelValue?: number;
 }>();
 const emit = defineEmits(["update:modelValue"]);
-
-const activeList = ref(props.list.map((el) => false));
-activeList.value[0] = true;
-
-function clickHandler(i: number) {
-  activeList.value.forEach((_, i) => (activeList.value[i] = false));
-  activeList.value[i] = true;
-  emit("update:modelValue", i);
-}
-
-const { width } = useWindowSize();
 </script>
 
 <template>
@@ -23,8 +12,8 @@ const { width } = useWindowSize();
       class="typography__menu-upper"
       v-for="(v, i) of list"
       :key="i"
-      :class="{ active: activeList[i] }"
-      @click="clickHandler(i)"
+      :class="{ active: i == modelValue }"
+      @click="emit('update:modelValue', i)"
     >
       {{ v }}
     </button>
@@ -79,7 +68,7 @@ const { width } = useWindowSize();
       white-space: nowrap;
       padding: 0;
       border-radius: 0;
-      padding-bottom: 4px;
+      padding-bottom: 4px !important;
       border-bottom: 1px solid transparent;
 
       &.active {

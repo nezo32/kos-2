@@ -116,8 +116,8 @@ const show = computed(() => width.value > 768);
     <div class="progress__course__list" v-if="!show">
       <h5 class="typography__title__6">Статус занятий</h5>
       <section v-for="(v, i) of data" :class="{ active: openData[i] }">
-        <header>
-          <aside @click="openData[i] = !openData[i]">
+        <header @click="openData[i] = !openData[i]">
+          <aside>
             <IconsModuleArrowIcon :class="{ up: !openData[i] }" />
             {{ `${i + 1} занятие` }}
           </aside>

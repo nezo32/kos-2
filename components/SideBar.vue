@@ -55,14 +55,22 @@ function arrowClickHandler() {
 const { width } = useWindowSize();
 const sidebar = ref();
 
+const sideBarSize = useElementSize(sidebar);
+const aboba = computed(() => sideBarSize.width.value + "px");
+
 const wideMonitor = ref(false);
 const justHideArrow = ref(false);
 
 onClickOutside(sidebar, () => {
+  if (width.value >= 1000) return;
   emit("closeMenu");
 });
 
 function set() {
+  if (width.value > 1920 || width.value < 1000) {
+    hide.value = false;
+    hideText.value = false;
+  }
   wideMonitor.value = width.value > 1920;
   justHideArrow.value = width.value < 1000;
 }
@@ -79,8 +87,12 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="side-bar" :class="{ hide, wideMonitor, justHideArrow }" ref="sidebar">
-    <article v-if="!wideMonitor && !justHideArrow">
+  <div
+    class="side-bar"
+    :class="{ hide, wideMonitor, justHideArrow, width: !wideMonitor && !justHideArrow }"
+    ref="sidebar"
+  >
+    <article v-if="!wideMonitor && !justHideArrow" ref="articleBar">
       <div class="side-bar__content">
         <div class="side-bar__content__header">
           <IconsLogoIcon
@@ -159,12 +171,14 @@ onMounted(() => {
   flex-direction: column;
   border-radius: 0px 0px 10px 10px;
   justify-content: space-between;
+
+  position: fixed;
 }
 .side-bar {
   flex-shrink: 0;
   transition: max-width 0.3s ease-in-out;
   &.hide {
-    max-width: 112px;
+    max-width: 52px;
   }
 
   article {
@@ -173,16 +187,18 @@ onMounted(() => {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+
+    width: v-bind(aboba);
   }
 
   &.justHideArrow {
-    width: 256px !important;
+    width: 184px !important;
   }
 
-  overflow: hidden;
-  max-width: 256px;
+  width: 100%;
 
-  box-sizing: border-box;
+  overflow: hidden;
+  max-width: 184px;
 
   padding: 40px 30px 30px 30px;
   background: var(--primary-color, #ca3b4c);

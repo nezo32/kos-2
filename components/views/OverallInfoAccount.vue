@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import CameraIcon from "@/assets/svg/camera.svg?component";
+
 type InputType = {
   type: "input";
   placeholder: string;
@@ -84,6 +86,37 @@ const inputsShowAnother = ref(false);
 
 function set() {
   inputsShowAnother.value = width.value <= 768;
+  if (width.value <= 768) {
+    additional.value.forEach((el, i) => {
+      if (additional.value[i].type == "input") {
+        if (i == 0) {
+          // @ts-ignore
+          additional.value[i].placeholder = "Вконтакте";
+        } else if (i == 1) {
+          // @ts-ignore
+          additional.value[i].placeholder = "Телеграм";
+        } else if (i == 2) {
+          // @ts-ignore
+          additional.value[i].placeholder = "Одноклассники";
+        }
+      }
+    });
+  } else {
+    additional.value.forEach((el, i) => {
+      if (additional.value[i].type == "input") {
+        if (i == 0) {
+          // @ts-ignore
+          additional.value[i].placeholder = "Ссылка на личную страницу во ВКонтакте";
+        } else if (i == 1) {
+          // @ts-ignore
+          additional.value[i].placeholder = "Ссылка на аккаунт в Телеграме";
+        } else if (i == 2) {
+          // @ts-ignore
+          additional.value[i].placeholder = "Ссылка на личную страницу в Одноклассниках";
+        }
+      }
+    });
+  }
 }
 
 watch(width, () => {
@@ -100,7 +133,11 @@ onMounted(() => {
 <template>
   <div class="overall">
     <div class="overall__header">
-      <img :src="pictureUrl ?? '/images/ph.png'" alt="pfp" />
+      <aside>
+        <img :src="pictureUrl ?? '/images/ph.png'" alt="pfp" />
+        <label><input type="file" /></label>
+        <div><CameraIcon /></div>
+      </aside>
       <section>
         <h6 class="typography__title__8">{{ name }}</h6>
         <span class="typography__text__2">{{ mail }}</span>
@@ -202,6 +239,54 @@ onMounted(() => {
       gap: 10px;
       span {
         color: var(--text-grey);
+      }
+    }
+
+    aside {
+      cursor: pointer;
+      position: relative;
+      height: 100px;
+      width: 100px;
+
+      @media screen and (max-width: 480px) {
+        width: 60px;
+        height: 60px;
+      }
+
+      &:hover {
+        div {
+          display: flex;
+        }
+      }
+
+      > label {
+        cursor: pointer;
+
+        z-index: 100;
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+
+        > input {
+          visibility: hidden;
+        }
+      }
+
+      > div {
+        display: none;
+        z-index: 99;
+        background: rgba(0, 0, 0, 0.4);
+        border-radius: 100%;
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+
+        justify-content: center;
+        align-items: center;
       }
     }
   }

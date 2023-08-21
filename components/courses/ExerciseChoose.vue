@@ -1,10 +1,24 @@
 <script setup lang="ts">
+type ViewType = "description" | "progress" | "schedule" | `exercise${number}` | undefined;
+
 const props = defineProps<{
-  current: number;
   count: number;
   reply?: boolean;
+  width: number;
+  modelValue: ViewType;
 }>();
-const emit = defineEmits(["update:current", "update:reply"]);
+const emit = defineEmits(["update:reply", "update:modelValue"]);
+
+const cmptd = computed({
+  get() {
+    return props.modelValue;
+  },
+  set(value) {
+    emit("update:modelValue", value);
+  }
+});
+
+const current = ref(0);
 
 const router = useRouter();
 const pagesContainer = ref<HTMLDivElement>();
@@ -17,25 +31,37 @@ const position = ref({
 
 const { width } = useWindowSize();
 
-const formatted = computed(() => (width.value - 600) / 2 + "px");
+const formatted = computed(() => props.width + "px");
+
+const innerSpanSize = computed(() => {
+  if (width.value <= 480) {
+    return 80;
+  } else if (width.value <= 580) {
+    return 90;
+  } else if (width.value <= 740) {
+    return 100;
+  } else {
+    return 120;
+  }
+});
 
 function left() {
   if (!pagesContainer.value) return;
-  if (props.current > 1) {
-    emit("update:current", props.current - 1);
-    pagesContainer.value.scrollLeft = (props.current - 3) * 120;
+  if (current.value > 1) {
+    current.value = current.value - 1;
+    pagesContainer.value.scrollLeft = (current.value - 3) * innerSpanSize.value;
     return;
   }
   pagesContainer.value.scrollLeft = 0;
 }
 function right() {
   if (!pagesContainer.value) return;
-  if (props.current < props.count) {
-    emit("update:current", props.current + 1);
-    pagesContainer.value.scrollLeft = (props.current - 1) * 120;
+  if (current.value < props.count) {
+    current.value = current.value + 1;
+    pagesContainer.value.scrollLeft = (current.value - 1) * innerSpanSize.value;
     return;
   }
-  pagesContainer.value.scrollLeft = props.current * 120;
+  pagesContainer.value.scrollLeft = current.value * innerSpanSize.value;
 }
 
 function mouseMove(ev: MouseEvent) {
@@ -71,13 +97,27 @@ function mouseOut() {
 
 function clck() {
   emit("update:reply", true);
-  emit("update:current", 0);
 }
 
 function dblclck(v: number) {
-  emit("update:current", v);
   emit("update:reply", false);
+  router.push(`${router.currentRoute.value.params.id}?view=exercise${v}`);
 }
+
+function set() {
+  if (cmptd.value?.includes("exercise")) {
+    current.value = Number(cmptd.value.replace("exercise", ""));
+  } else {
+    current.value = 0;
+  }
+}
+
+onMounted(() => {
+  set();
+});
+onBeforeUpdate(() => {
+  set();
+});
 </script>
 
 <template>
@@ -119,31 +159,16 @@ function dblclck(v: number) {
   align-items: center;
   gap: 40px;
 
+  @media screen and (max-width: 768px) {
+    gap: 20px;
+  }
+
   @media screen and (max-width: 1280px) {
     justify-content: space-between;
   }
 
   &__inner {
     width: v-bind(formatted);
-
-    @media screen and (max-width: 1280px) {
-      width: 550px;
-    }
-    @media screen and (max-width: 740px) {
-      width: 400px;
-    }
-    @media screen and (max-width: 580px) {
-      width: 350px;
-    }
-    @media screen and (max-width: 525px) {
-      width: 300px;
-    }
-    @media screen and (max-width: 480px) {
-      width: 250px;
-    }
-    @media screen and (max-width: 440px) {
-      width: 200px;
-    }
 
     user-select: none;
     overflow: auto;
@@ -184,10 +209,22 @@ function dblclck(v: number) {
         color: var(--primary-color);
       }
 
+      @media screen and (max-width: 768px) {
+        padding: 5px 0px;
+      }
       &.active {
         background: var(--primary-color);
         color: var(--white);
         border-radius: 6px;
+
+        @media screen and (max-width: 768px) {
+          padding: 4px 0px;
+
+          background: none;
+          color: var(--primary-color);
+          border-bottom: 1px solid var(--primary-color);
+          border-radius: 0px;
+        }
       }
     }
   }

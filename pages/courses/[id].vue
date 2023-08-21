@@ -4,10 +4,11 @@ import type { RouteLocationNormalized } from "vue-router";
 definePageMeta({
   pageName: async (r: RouteLocationNormalized) => "Курс"
 });
-type ViewType = "description" | "progress" | "schedule" | undefined;
+type ViewType = "description" | "progress" | "schedule" | `exercise${number}` | undefined;
 
 const router = useRouter();
 
+const container = ref<HTMLElement>();
 const cover = ref<HTMLImageElement>();
 
 const view = ref<ViewType>(router.currentRoute.value.query.view as ViewType | undefined);
@@ -76,23 +77,52 @@ const creators = ref<{ image?: string; name: string; who: string; desc: string }
 ]);
 
 watch(router.currentRoute, (n) => {
-  currentExercise.value = 0;
   reply.value = false;
   view.value = n.query.view as ViewType;
 });
+
+const { width } = useWindowSize();
+const elemSize = useElementSize(container);
+const show = ref(false);
+
+const widthInner = ref(0);
+
+async function set() {
+  if (!container.value) return;
+
+  await nextTick();
+
+  if (width.value <= 768) {
+    widthInner.value = container.value.offsetWidth - 40 - 50;
+  } else if (width.value <= 1280) {
+    widthInner.value = container.value.offsetWidth - 80 - 50;
+  } else {
+    widthInner.value = container.value.offsetWidth - 40 - 80 - 50 - 400;
+  }
+  show.value = true;
+}
+
+watch(elemSize.width, () => {
+  show.value = false;
+  set();
+});
+
 onMounted(() => {
-  view.value = router.currentRoute.value.query.view as ViewType;
+  set();
+  view.value = (router.currentRoute.value.query.view as ViewType) ?? "description";
   if (!cover.value) return;
   cover.value.style.background = `linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.4) 85.94%), url(${courseCover.value}), lightgrey 0px -129.87px / 100% 340.728% no-repeat`;
 });
 </script>
 
 <template>
-  <div class="course">
+  <div class="course" ref="container">
     <div class="course__header">
       <CoursesSwitcherViewType v-model="view" style="flex-shrink: 0" />
       <CoursesExerciseChoose
-        v-model:current="currentExercise"
+        v-model="view"
+        v-if="show"
+        :width="widthInner"
         :count="countExercises"
         v-model:reply="reply"
       />
@@ -108,7 +138,7 @@ onMounted(() => {
     />
     <ViewsProgressCourse v-else-if="currentExercise == 0 && !reply && view == 'progress'" />
     <ViewsScheduleCourse v-else-if="currentExercise == 0 && !reply && view == 'schedule'" />
-    <ViewsExerciseCourse v-if="currentExercise != 0" :index="currentExercise" />
+    <ViewsExerciseCourse v-if="view?.includes('exercise')" :index="currentExercise" />
   </div>
 </template>
 

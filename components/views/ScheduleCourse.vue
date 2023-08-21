@@ -50,7 +50,7 @@ const show = computed(() => width.value > 1280);
             <span class="typography__text__2"
               >{{ v.crumbs }} <span style="color: var(--primary-color)">{{ v.time }}</span></span
             >
-            <h5 class="typography__title__7-2">{{ v.header }}</h5>
+            <h5 class="typography__title__7-3">{{ v.header }}</h5>
             <span class="typography__text__2">{{ v.adress }}</span>
           </div>
           <span class="typography__text__2" :title="v.content">

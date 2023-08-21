@@ -1,5 +1,5 @@
 <script setup lang="ts">
-type ViewType = "description" | "progress" | "schedule" | undefined;
+type ViewType = "description" | "progress" | "schedule" | `exercise${number}` | undefined;
 
 const props = defineProps<{
   modelValue: ViewType;

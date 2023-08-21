@@ -79,7 +79,7 @@ agreementText.value = agreementText.value.replace(
   &__inner {
     margin-bottom: 60px;
 
-    @media screen and (max-width: 1919px) {
+    @media screen and (max-width: 1600px) {
       flex-direction: column-reverse;
     }
 
@@ -87,7 +87,7 @@ agreementText.value = agreementText.value.replace(
     flex-direction: row;
     gap: 30px;
     > * {
-      @media screen and (max-width: 1919px) {
+      @media screen and (max-width: 1600px) {
         width: 100% !important;
       }
       &:nth-child(1) {

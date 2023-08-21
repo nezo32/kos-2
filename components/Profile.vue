@@ -4,6 +4,8 @@ defineProps<{
   email: string;
   picture?: string;
 }>();
+
+const router = useRouter();
 </script>
 
 <template>
@@ -13,11 +15,12 @@ defineProps<{
       <p class="typography__mail">{{ email }}</p>
     </div>
     <img
+      @click="router.push('/account')"
       :src="picture ?? 'https://wallpapers-clan.com/wp-content/uploads/2023/05/cool-pfp-02.jpg'"
       alt="pfp"
       width="50"
       height="50"
-      style="border-radius: 10px"
+      style="border-radius: 10px; cursor: pointer"
     />
   </div>
 </template>

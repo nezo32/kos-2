@@ -3,7 +3,7 @@
 <template>
   <div class="security">
     <div class="security__inner">
-      <h6 class="typography__title__7-2">Двухфакторная аутентификация</h6>
+      <h6 class="typography__title__8">Двухфакторная аутентификация</h6>
       <section>
         <span class="typography__text__3">
           Двухфакторная аутентификация — это дополнительный уровень безопасности, который
@@ -14,7 +14,7 @@
       </section>
     </div>
     <div class="security__inner">
-      <h6 class="typography__title__7-2">Изменение пароля</h6>
+      <h6 class="typography__title__8">Изменение пароля</h6>
       <section>
         <span class="typography__text__3">
           Если вы забыли или потеряли пароль, его можно изменить или сбросить.
@@ -132,6 +132,10 @@
     border: none;
     background: var(--primary-color);
     color: var(--white);
+
+    @media screen and (max-width: 768px) {
+      width: 100%;
+    }
   }
 
   h6 {

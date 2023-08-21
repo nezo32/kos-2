@@ -64,6 +64,9 @@ const data = ref<{ title: string; text: string; pictureUrl?: string; ago: string
         width: 80px;
         height: 80px;
       }
+      @media screen and (max-width: 480px) {
+        display: none;
+      }
 
       object-fit: cover;
       object-position: 25% 25%;

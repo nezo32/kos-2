@@ -55,7 +55,7 @@ const height = computed(() => width.value / 1.78 + "px");
     <div class="exersise__course__header">
       <section>
         <article>
-          <h5 class="typography__title__7-2">{{ header.name }}</h5>
+          <h5 class="typography__title__7-3">{{ header.name }}</h5>
           <span class="typography__text__2">{{ `Занятие доступно до ${header.date}` }}</span>
         </article>
         <span class="typography__text__2">
@@ -72,7 +72,7 @@ const height = computed(() => width.value / 1.78 + "px");
         </section>
       </div>
       <div class="exersise__course__header__about">
-        <h6 class="typography__title__7-2">Описание занятия</h6>
+        <h6 class="typography__title__7-3">Описание занятия</h6>
         <span class="typography__text__2" v-html="desc.replaceAll('\n', '<br /><br />')"></span>
       </div>
     </div>
@@ -88,15 +88,15 @@ const height = computed(() => width.value / 1.78 + "px");
         allowfullscreen
       />
       <section>
-        <h6 class="typography__title__7-2">Структура занятия</h6>
+        <h6 class="typography__title__7-3">Структура занятия</h6>
         <span v-for="(v, i) of structure" :key="i">
-          <p class="typography__title__7-2">{{ i + 1 }}</p>
+          <p class="typography__text__2-3">{{ i + 1 }}</p>
           <span class="typography__text__2">{{ v }}</span>
         </span>
       </section>
     </div>
     <div class="exersise__course__additional-files">
-      <h6 class="typography__title__7-2">Дополнительные файлы</h6>
+      <h6 class="typography__title__7-3">Дополнительные файлы</h6>
       <section>
         <a v-for="(v, i) of files" :key="i" :href="v.url">
           <IconsDocDownloadIcon />
@@ -105,7 +105,7 @@ const height = computed(() => width.value / 1.78 + "px");
       </section>
     </div>
     <div class="exersise__course__testing">
-      <h6 class="typography__title__7-2">Тестирование</h6>
+      <h6 class="typography__title__7-3">Тестирование</h6>
       <CoursesTestingExercise />
     </div>
   </div>

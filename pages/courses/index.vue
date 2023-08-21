@@ -38,8 +38,15 @@ const coursesContainer = ref<HTMLElement>();
 
 const { width } = useElementSize(coursesContainer);
 
+watch(current, (n) => {
+  if (n == 3) {
+    window.open("https://do-kosygin.ru/catalog/all", "_blank")?.focus();
+    current.value = 0;
+  }
+});
+
 watch(width, (n) => {
-  if (n < 1245) {
+  if (n < 1300) {
     coursesContainer.value?.classList.add("max");
   } else {
     coursesContainer.value?.classList.remove("max");
@@ -67,7 +74,7 @@ watch(width, (n) => {
   </div>
 </template>
 
-<style scoped lang="scss">
+<style lang="scss">
 .courses {
   display: flex;
   flex-direction: column;
@@ -87,6 +94,15 @@ watch(width, (n) => {
       flex-direction: column;
       > * {
         width: 100%;
+      }
+
+      .card__content__buttons {
+        box-sizing: border-box;
+        width: 600px !important;
+
+        @media screen and (max-width: 1280px) {
+          width: 100% !important;
+        }
       }
     }
   }

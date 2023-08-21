@@ -28,6 +28,7 @@ onMounted(() => {
 
 <template>
   <main class="application" :class="{ viewpoint: viewpoint }">
+    <section v-if="viewpoint"></section>
     <SideBar class="application__sidebar" v-if="sideBar" @close-menu="sideBar = !sideBar" />
     <div class="application__content">
       <ServiceHeader
@@ -45,6 +46,10 @@ onMounted(() => {
 @import "@/assets/scss/main.scss";
 
 .application {
+  > section {
+    width: 244px;
+  }
+
   position: relative;
   display: flex;
   flex-direction: row;

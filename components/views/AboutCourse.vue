@@ -26,7 +26,7 @@ defineProps<{
         <img :src="v.image ?? '/images/placeholder.png'" alt="creatorPfp" />
         <section>
           <h5 class="typography__title__6">{{ `${v.who}: ${v.name}` }}</h5>
-          <span class="typography__text__1">{{ v.desc }}</span>
+          <span class="typography__text__2">{{ v.desc }}</span>
         </section>
       </article>
     </div>
@@ -43,13 +43,13 @@ defineProps<{
     <div class="about__course__inner">
       <div class="about__course__inner__header">
         <h5 class="typography__title__6">Содержание программы</h5>
-        <span class="typography__text__1">Скачать программу</span>
+        <span class="typography__text__2">Скачать программу</span>
       </div>
       <div class="about__course__inner__data">
         <article v-for="(v, i) of modules" :key="i" :class="{ active: v.open }">
-          <header>
+          <header @click="modules[i].open = !v.open">
             <section>
-              <IconsModuleArrowIcon @click="modules[i].open = !v.open" />
+              <IconsModuleArrowIcon />
               <span class="typography__text__2">{{ `Модуль ${i + 1}: ${v.name}` }}</span>
             </section>
             <article class="typography__text__2">
@@ -178,6 +178,10 @@ defineProps<{
       display: flex;
       flex-direction: column;
       gap: 30px;
+
+      @media screen and (max-width: 1280px) {
+        gap: 20px;
+      }
 
       article {
         border-radius: 10px;
