@@ -16,6 +16,47 @@ defineProps<{
   courseName: string;
   courseDescription: string;
 }>();
+
+function enter(element: Element) {
+  const width = getComputedStyle(element).width;
+
+  const el = element as HTMLElement;
+  el.style.width = width;
+  el.style.position = "absolute";
+  el.style.visibility = "hidden";
+  el.style.height = "auto";
+
+  const height = getComputedStyle(element).height;
+
+  el.style.width = "";
+  el.style.position = "";
+  el.style.visibility = "";
+  el.style.height = "0";
+
+  getComputedStyle(element).height;
+
+  requestAnimationFrame(() => {
+    el.style.height = height;
+  });
+}
+
+function afterEnter(element: Element) {
+  const el = element as HTMLElement;
+  el.style.height = "auto";
+}
+
+function leave(element: Element) {
+  const el = element as HTMLElement;
+  const height = getComputedStyle(element).height;
+
+  el.style.height = height;
+
+  getComputedStyle(element).height;
+
+  requestAnimationFrame(() => {
+    el.style.height = "0";
+  });
+}
 </script>
 
 <template>
@@ -58,9 +99,11 @@ defineProps<{
               <span>{{ `${v.hours} часов` }}</span>
             </article>
           </header>
-          <section v-if="v.open" class="typography__text__2">
-            {{ v.description }}
-          </section>
+          <Transition name="expand-h" @enter="enter" @leave="leave" @after-enter="afterEnter">
+            <section v-if="v.open" class="typography__text__2">
+              <span>{{ v.description }}</span>
+            </section>
+          </Transition>
         </article>
       </div>
       <button class="typography__button">Все модули</button>
@@ -69,6 +112,17 @@ defineProps<{
 </template>
 
 <style scoped lang="scss">
+.expand-h-enter-active,
+.expand-h-leave-active {
+  transition: height 0.2s ease-in-out;
+  overflow: hidden;
+}
+
+.expand-h-enter-from,
+.expand-h-leave-to {
+  height: 0px;
+}
+
 .about__course {
   color: var(--text-color);
 
@@ -233,7 +287,15 @@ defineProps<{
         }
 
         > section {
-          padding: 30px 20px 20px 20px;
+          will-change: height;
+          backface-visibility: hidden;
+          perspective: 1000px;
+          overflow: hidden;
+
+          > span {
+            display: block;
+            padding: 30px 20px 20px 20px;
+          }
         }
       }
     }

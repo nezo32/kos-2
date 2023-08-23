@@ -56,7 +56,7 @@ const { width } = useWindowSize();
 const sidebar = ref();
 
 const sideBarSize = useElementSize(sidebar);
-const aboba = computed(() => sideBarSize.width.value + "px");
+const sideBarWidthComputed = computed(() => sideBarSize.width.value + "px");
 
 const wideMonitor = ref(false);
 const justHideArrow = ref(false);
@@ -183,16 +183,34 @@ onMounted(() => {
 
   article {
     position: fixed;
-    height: 95vh;
+    height: 93vh;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
 
-    width: v-bind(aboba);
+    width: v-bind(sideBarWidthComputed);
   }
 
   &.justHideArrow {
-    width: 184px !important;
+    width: 250px !important;
+    height: 100%;
+    box-sizing: border-box;
+    max-width: unset;
+
+    > * {
+      &:nth-child(1) {
+        padding: 40px 30px 0px 30px;
+        @media screen and (max-width: 768px) {
+          padding: 40px 20px 0px 20px;
+        }
+      }
+      &:nth-child(2) {
+        padding: 0px 30px 30px 30px;
+        @media screen and (max-width: 768px) {
+          padding: 0px 20px 30px 20px;
+        }
+      }
+    }
   }
 
   width: 100%;
@@ -203,9 +221,13 @@ onMounted(() => {
   padding: 40px 30px 30px 30px;
   background: var(--primary-color, #ca3b4c);
 
-  @media screen and (max-width: 768px) {
-    padding: 40px 20px 30px 20px;
+  @media screen and (max-width: 1000px) {
+    padding: unset;
   }
+
+  /* @media screen and (max-width: 768px) {
+    padding: 40px 20px 30px 20px;
+  } */
 
   &__content {
     display: flex;

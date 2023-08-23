@@ -46,6 +46,48 @@ const cmptdInner = computed(() => {
 });
 
 const show = computed(() => width.value > 768);
+
+function enter(element: Element) {
+  const width = getComputedStyle(element).width;
+
+  const el = element as HTMLElement;
+  el.style.width = width;
+  el.style.position = "absolute";
+  el.style.visibility = "hidden";
+  el.style.height = "auto";
+
+  const height = getComputedStyle(element).height;
+  console.log(height);
+
+  el.style.width = "";
+  el.style.position = "";
+  el.style.visibility = "";
+  el.style.height = "0";
+
+  getComputedStyle(element).height;
+
+  requestAnimationFrame(() => {
+    el.style.height = height;
+  });
+}
+
+function afterEnter(element: Element) {
+  const el = element as HTMLElement;
+  el.style.height = "auto";
+}
+
+function leave(element: Element) {
+  const el = element as HTMLElement;
+  const height = getComputedStyle(element).height;
+
+  el.style.height = height;
+
+  getComputedStyle(element).height;
+
+  requestAnimationFrame(() => {
+    el.style.height = "0";
+  });
+}
 </script>
 
 <template>
@@ -123,35 +165,48 @@ const show = computed(() => width.value > 768);
           </aside>
           <DotIcon :class="{ green: v.result == 'Проверено', red: v.result == 'Отклонено' }" />
         </header>
-        <article class="typography__text__3" v-if="openData[i]">
-          <div>
-            <p>Название:</p>
-            <span>{{ v.name }}</span>
-          </div>
-          <div>
-            <p>Статус:</p>
-            <span
-              :class="{
-                green: v.status.includes('Доступно до'),
-                lightgrey: v.status.includes('Закрыто'),
-                grey: v.status.includes('Доступно после')
-              }"
-              >{{ v.status }}</span
-            >
-          </div>
-          <div v-if="v.result">
-            <p>Результат:</p>
-            <span :class="{ green: v.result == 'Проверено', red: v.result == 'Отклонено' }">{{
-              v.result
-            }}</span>
-          </div>
-        </article>
+        <Transition name="expand" @enter="enter" @leave="leave" @after-enter="afterEnter">
+          <article class="typography__text__3" v-if="openData[i]">
+            <div>
+              <p>Название:</p>
+              <span>{{ v.name }}</span>
+            </div>
+            <div>
+              <p>Статус:</p>
+              <span
+                :class="{
+                  green: v.status.includes('Доступно до'),
+                  lightgrey: v.status.includes('Закрыто'),
+                  grey: v.status.includes('Доступно после')
+                }"
+                >{{ v.status }}</span
+              >
+            </div>
+            <div v-if="v.result">
+              <p>Результат:</p>
+              <span :class="{ green: v.result == 'Проверено', red: v.result == 'Отклонено' }">{{
+                v.result
+              }}</span>
+            </div>
+          </article>
+        </Transition>
       </section>
     </div>
   </div>
 </template>
 
 <style scoped lang="scss">
+.expand-enter-active,
+.expand-leave-active {
+  transition: height 0.2s ease-in-out;
+  overflow: hidden;
+}
+
+.expand-enter-from,
+.expand-leave-to {
+  height: 0px;
+}
+
 .progress__course {
   .green {
     color: var(--accent-green);
@@ -305,6 +360,12 @@ const show = computed(() => width.value > 768);
       }
 
       > article {
+        will-change: height;
+        backface-visibility: hidden;
+        perspective: 1000px;
+        overflow: hidden;
+
+        box-sizing: border-box;
         display: flex;
         flex-direction: column;
         gap: 20px;

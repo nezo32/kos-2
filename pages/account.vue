@@ -80,7 +80,7 @@ agreementText.value = agreementText.value.replace(
     margin-bottom: 60px;
 
     @media screen and (max-width: 1600px) {
-      flex-direction: column-reverse;
+      flex-direction: column;
     }
 
     display: flex;

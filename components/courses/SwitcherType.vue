@@ -27,12 +27,8 @@ const emit = defineEmits(["update:modelValue"]);
   @media screen and (max-width: 1280px) {
     width: 100%;
 
-    > * {
-      width: 100%;
-    }
-
     button {
-      padding: 13px 0px !important;
+      padding: 13px 11px !important;
     }
   }
 

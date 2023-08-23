@@ -5,6 +5,7 @@ const { width } = useWindowSize();
 
 function set() {
   viewpoint.value = width.value > 1920;
+  mobile.value = width.value <= 1000;
   if (sideBar.value) return;
   if (width.value >= 1000) {
     sideBar.value = true;
@@ -13,6 +14,7 @@ function set() {
   }
 }
 
+const mobile = ref(false);
 const viewpoint = ref(false);
 
 watch(width, () => {
@@ -29,7 +31,14 @@ onMounted(() => {
 <template>
   <main class="application" :class="{ viewpoint: viewpoint }">
     <section v-if="viewpoint"></section>
-    <SideBar class="application__sidebar" v-if="sideBar" @close-menu="sideBar = !sideBar" />
+    <template v-if="mobile">
+      <Transition name="expand">
+        <SideBar v-if="sideBar" class="application__sidebar" @close-menu="sideBar = !sideBar" />
+      </Transition>
+    </template>
+    <template v-if="!mobile">
+      <SideBar class="application__sidebar" v-if="sideBar" @close-menu="sideBar = !sideBar" />
+    </template>
     <div class="application__content">
       <ServiceHeader
         username="Анастасия"
@@ -44,6 +53,22 @@ onMounted(() => {
 
 <style lang="scss">
 @import "@/assets/scss/main.scss";
+
+.expand-enter-active,
+.expand-leave-active {
+  transition: max-width 0.3s ease-in-out;
+  overflow: hidden;
+}
+
+.expand-enter-to,
+.expand-leave-from {
+  max-width: 250px !important;
+}
+
+.expand-enter-from,
+.expand-leave-to {
+  max-width: 0px !important;
+}
 
 .application {
   > section {

@@ -135,7 +135,10 @@ function emoji() {}
               <MailIcon />
               <h6 class="typography__title__8">Электронная почта</h6>
             </header>
-            <span class="typography__text__3"> do@rguk.ru <span>ipk-design@yandex.ru</span> </span>
+            <span class="typography__text__3">
+              <span>do@rguk.ru</span>
+              <span>ipk-design@yandex.ru</span>
+            </span>
           </section>
           <section>
             <header>
@@ -143,7 +146,9 @@ function emoji() {}
               <h6 class="typography__title__8">Наш адрес</h6>
             </header>
             <span class="typography__text__3">
-              119071, г. Москва, ул. Малая Калужская, д. 1, 1-й корпус, 4-й этаж, оф. 1445
+              <span
+                >119071, г. Москва, ул. Малая Калужская, д. 1, 1-й корпус, 4-й этаж, оф. 1445</span
+              >
             </span>
           </section>
         </article>
@@ -155,7 +160,7 @@ function emoji() {}
             <h6 class="typography__title__8">Телефоны</h6>
           </header>
           <span class="typography__text__3">
-            +7 495 991-00-07
+            <span>+7 495 991-00-07</span>
             <span>+7 495 811-01-01 (доб. 1234, 1526, 1527)</span>
           </span>
         </section>
@@ -166,7 +171,7 @@ function emoji() {}
           </header>
           <span class="typography__text__3">
             По будням с 10:00 до 17:00
-            <span>Суббота, воскресенье выходной</span>
+            <span style="cursor: auto">Суббота, воскресенье выходной</span>
           </span>
         </section>
       </div>
@@ -225,6 +230,10 @@ function emoji() {}
         flex-direction: column;
         gap: 10px;
         color: var(--text-grey);
+
+        > span {
+          cursor: pointer;
+        }
       }
     }
 

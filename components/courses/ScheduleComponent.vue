@@ -76,7 +76,7 @@ function changeMonth(monthIndex: number) {
   dateInstance.value = tmpDate;
 }
 
-onUpdated(() => {
+watch(dateInstance, () => {
   content.value = setCalendar();
 });
 </script>

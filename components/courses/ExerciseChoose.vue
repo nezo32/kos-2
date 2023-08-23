@@ -49,6 +49,7 @@ function left() {
   if (!pagesContainer.value) return;
   if (current.value > 1) {
     current.value = current.value - 1;
+    router.push(`${router.currentRoute.value.params.id}?view=exercise${current.value}`);
     pagesContainer.value.scrollLeft = (current.value - 3) * innerSpanSize.value;
     return;
   }
@@ -58,6 +59,7 @@ function right() {
   if (!pagesContainer.value) return;
   if (current.value < props.count) {
     current.value = current.value + 1;
+    router.push(`${router.currentRoute.value.params.id}?view=exercise${current.value}`);
     pagesContainer.value.scrollLeft = (current.value - 1) * innerSpanSize.value;
     return;
   }
